@@ -108,8 +108,8 @@ public class Episodio{
     this.id = dis.readInt();
     this.nome = dis.readUTF();
     this.temporada = dis.readShort();
-    this.lancamento = LocalDate.ofEpochDay(dos.readInt());
-    this.duracao = dos.readShort();
+    this.lancamento = LocalDate.ofEpochDay(dis.readInt());
+    this.duracao = dis.readShort();
   }
   
   

@@ -16,10 +16,10 @@ public class Serie{
   
   //Contrutores
   
-  public Serie(int pid, String pnome, short plancamento, String psinopse, String pstreaming){
+  public Serie(int pid, String pnome, int plancamento, String psinopse, String pstreaming){
     this.id = pid;
     this.nome = pnome;
-    this.lancamento = plancamento;
+    this.lancamento = (short)plancamento;
     this.sinopse = psinopse;
     this.streaming = pstreaming;
   }
@@ -64,8 +64,8 @@ public class Serie{
     this.nome = pnome;
   }
   
-  public void setLancamento(short plancamento){
-    this.lancamento = plancamento;
+  public void setLancamento(int plancamento){
+    this.lancamento = (short)plancamento;
   }
   
   public void setSinopse(String psinopse){
@@ -106,11 +106,11 @@ public class Serie{
     ByteArrayInputStream bais = new ByteArrayInputStream(vetor);
     DataInputStream dis = new DataInputStream(bais);
     
-    this.id = dos.readInt();
-    this.nome = dos.readUTF();
-    this.lancamento = dos.readShort();
-    this.sinopse = dos.readUTF();
-    this.streaming = dos.readUTF();
+    this.id = dis.readInt();
+    this.nome = dis.readUTF();
+    this.lancamento = dis.readShort();
+    this.sinopse = dis.readUTF();
+    this.streaming = dis.readUTF();
     
   }
   
