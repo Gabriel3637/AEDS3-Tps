@@ -1,4 +1,4 @@
-package TP1;
+package Entidades;
 
 
 import java.time.LocalDate;
@@ -6,8 +6,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 
-import TP1.EntidadeArquivo;
+import Entidades.Modelo.EntidadeArquivo;
 
 public class Episodio{
   private int serieId;
@@ -82,7 +83,7 @@ public class Episodio{
   Objetivo: Transformar todos os dados da instancia do objeto em um vetor de bytes. 
   Parametros: Não há parâmentros
   */
-  public byte[] toByteArray(){
+  public byte[] toByteArray() throws IOException{
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     DataOutputStream dos = new DataOutputStream(baos);
     
