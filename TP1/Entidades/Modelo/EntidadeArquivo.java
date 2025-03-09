@@ -1,4 +1,4 @@
-package TP1;
+package Entidades.Modelo;
 public interface EntidadeArquivo {
     public void setId(int id);
     public int getId();

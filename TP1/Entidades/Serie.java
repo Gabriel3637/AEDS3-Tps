@@ -1,11 +1,12 @@
-package TP1;
+package Entidades;
 
 import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 
-import TP1.EntidadeArquivo;
+import Entidades.Modelo.EntidadeArquivo;
 
 public class Serie{
   private int id;
@@ -82,7 +83,7 @@ public class Serie{
   Parametros: Não há parâmentros
   */
   
-  public byte[] toByteArray(){
+  public byte[] toByteArray() throws IOException{
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     DataOutputStream dos = new DataOutputStream(baos);
     
@@ -102,7 +103,7 @@ public class Serie{
   @vetor = Vetor de bytes para ser transformado
   */
   
-  public void fromByteArray(byte[] vetor){
+  public void fromByteArray(byte[] vetor) throws IOException{
     ByteArrayInputStream bais = new ByteArrayInputStream(vetor);
     DataInputStream dis = new DataInputStream(bais);
     
