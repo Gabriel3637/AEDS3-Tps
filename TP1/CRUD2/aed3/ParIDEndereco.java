@@ -5,7 +5,9 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class ParIDEndereco implements aed3.RegistroHashExtensivel<ParIDEndereco> {
+import Entidades.aed3.ParIDEndereco;
+
+public class ParIDEndereco implements Entidades.aed3.RegistroHashExtensivel<ParIDEndereco> {
     
     private int id;   // chave
     private long endereco;    // valor
