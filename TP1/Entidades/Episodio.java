@@ -10,7 +10,7 @@ import java.io.IOException;
 
 import Entidades.Modelo.EntidadeArquivo;
 
-public class Episodio{
+public class Episodio implements EntidadeArquivo{
   private int serieId;
   private int id;
   private String nome;

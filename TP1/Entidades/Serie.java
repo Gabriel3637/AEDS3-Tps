@@ -8,7 +8,7 @@ import java.io.IOException;
 
 import Entidades.Modelo.EntidadeArquivo;
 
-public class Serie{
+public class Serie implements EntidadeArquivo{
   private int id;
   private String nome;
   private short lancamento;
