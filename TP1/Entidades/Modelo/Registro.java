@@ -1,4 +1,4 @@
-package Entidades.aed3;
+package Entidades.Modelo;
 
 
 import java.io.IOException;

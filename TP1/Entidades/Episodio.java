@@ -8,9 +8,9 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import Entidades.Modelo.EntidadeArquivo;
+import Entidades.Modelo.Registro;
 
-public class Episodio implements EntidadeArquivo{
+public class Episodio implements Registro{
   private int serieId;
   private int id;
   private String nome;

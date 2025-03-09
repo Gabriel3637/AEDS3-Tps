@@ -13,8 +13,10 @@ v1.1 - 2021
 
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import Entidades.aed3.ArvoreBMais;
+
 import java.io.File;
-import aed3.ArvoreBMais;
 
 public class Main {
 

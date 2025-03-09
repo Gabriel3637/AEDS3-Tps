@@ -6,9 +6,9 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import Entidades.Modelo.EntidadeArquivo;
+import Entidades.Modelo.Registro;
 
-public class Serie implements EntidadeArquivo{
+public class Serie implements Registro{
   private int id;
   private String nome;
   private short lancamento;

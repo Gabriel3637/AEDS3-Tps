@@ -1,6 +1,6 @@
 import java.time.LocalDate;
 
-import aed3.Registro;
+import Entidades.Modelo.Registro;
 
 import java.io.IOException;
 import java.io.ByteArrayOutputStream;

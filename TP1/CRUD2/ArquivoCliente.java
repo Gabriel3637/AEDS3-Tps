@@ -1,6 +1,8 @@
-import aed3.*;
+import Entidades.aed3.*;
+import aed3.Arquivo;
+import aed3.HashExtensivel;
 
-public class ArquivoCliente extends aed3.Arquivo<Cliente> {
+public class ArquivoCliente extends Entidades.aed3.Arquivo<Cliente> {
 
     Arquivo<Cliente> arqClientes;
     HashExtensivel<ParCPFID> indiceIndiretoCPF;

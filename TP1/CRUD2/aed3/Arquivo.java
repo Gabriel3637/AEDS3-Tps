@@ -5,6 +5,10 @@ import java.io.File;
 import java.io.RandomAccessFile;
 import java.lang.reflect.Constructor;
 
+import Entidades.Modelo.Registro;
+import Entidades.aed3.HashExtensivel;
+import Entidades.aed3.ParIDEndereco;
+
 public class Arquivo<T extends Registro> {
     final int TAM_CABECALHO = 12;
     RandomAccessFile arquivo;
