@@ -102,7 +102,7 @@ public class Episodio{
   Parametros:
   @vetor = Vetor de bytes para ser transformado
   */
-  public void fromByteArray(byte[] vetor){
+  public void fromByteArray(byte[] vetor) throws IOException{
     ByteArrayInputStream bais = new ByteArrayInputStream(vetor);
     DataInputStream dis = new DataInputStream(bais);
     
