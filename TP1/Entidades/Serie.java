@@ -1,3 +1,10 @@
+package TP1;
+
+import java.io.ByteArrayOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+
 public class Serie{
   private int id;
   private String nome;

@@ -1,10 +1,15 @@
-import java.time.LocalDate
-import java.io.ByteArrayOutputStream
-import java.io.ByteArrayInputStream
-import java.io.DataInputStream
-import java.io.DataOutputStream
+package TP1;
+
+
+import java.time.LocalDate;
+import java.io.ByteArrayOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+
 
 public class Episodio{
+  private int serieId;
   private int id;
   private String nome;
   private short temporada;
@@ -32,37 +37,43 @@ public class Episodio{
   //Métodos Gets
   
   public int getId(){
-    return id;
+    return this.id;
   }
   public String getNome(){
-    return nome;
+    return this.nome;
   }
   public short getTemporada(){
-    return temporada;
+    return this.temporada;
   }
   public LocalDate getLancamento(){
-    return lancamento;
+    return this.lancamento;
   }
   public short getDuracao(){
-    return duracao;
+    return this.duracao;
+  }
+  public int getSerieId(){
+    return this.serieId;
   }
   
   //Métodos Sets
   
   public void setId(int pid){
-    id = pid;
+    this.id = pid;
   }
   public void setNome(String pnome){
-    nome = pnome;
+    this.nome = pnome;
   }
   public void setTemporada(short ptemporada){
-    temporada = ptemporada;
+    this.temporada = ptemporada;
   }
   public void setLancamento(LocalDate plancamento){
-    lancamento = plancamento;
+    this.lancamento = plancamento;
   }
   public void setDuracao(short pduracao){
-    duracao = pduracao;
+    this.duracao = pduracao;
+  }
+  public void setSerieId(int pserieId){
+    this.serieId = pserieId;
   }
   
   /*
