@@ -7,6 +7,7 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 
+import TP1.EntidadeArquivo;
 
 public class Episodio{
   private int serieId;
@@ -18,16 +19,16 @@ public class Episodio{
   
   //Construtores
   
-  public Episodio(int pid, String pnome, short ptemporada, LocalDate plancamento, short pduracao){
+  public Episodio(int pid, String pnome, int ptemporada, LocalDate plancamento, int pduracao){
     this.id = pid;
     this.nome = pnome;
-    this.temporada = ptemporada;
+    this.temporada = (short)ptemporada;
     this.lancamento = plancamento;
-    this.duracao = pduracao;
+    this.duracao = (short)pduracao;
   }
   
   public Episodio(){
-    this("", -1, LocalDate.now(), -1);
+    this(-1, "", -1, LocalDate.now(), -1);
   }
   
   public Episodio(String pnome, short ptemporada, LocalDate plancamento, short pduracao){
@@ -104,9 +105,9 @@ public class Episodio{
     ByteArrayInputStream bais = new ByteArrayInputStream(vetor);
     DataInputStream dis = new DataInputStream(bais);
     
-    this.id = dos.readInt();
-    this.nome = dos.readUTF();
-    this.temporada = dos.readShort();
+    this.id = dis.readInt();
+    this.nome = dis.readUTF();
+    this.temporada = dis.readShort();
     this.lancamento = LocalDate.ofEpochDay(dos.readInt());
     this.duracao = dos.readShort();
   }

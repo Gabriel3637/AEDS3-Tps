@@ -5,6 +5,8 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 
+import TP1.EntidadeArquivo;
+
 public class Serie{
   private int id;
   private String nome;
@@ -14,7 +16,7 @@ public class Serie{
   
   //Contrutores
   
-  public Serie(int pid, pString nome, short plancamento, String psinopse, String pstreaming){
+  public Serie(int pid, String pnome, short plancamento, String psinopse, String pstreaming){
     this.id = pid;
     this.nome = pnome;
     this.lancamento = plancamento;
