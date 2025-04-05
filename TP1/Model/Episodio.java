@@ -20,8 +20,9 @@ public class Episodio implements Registro{
   
   //Construtores
   
-  public Episodio(int pid, String pnome, int ptemporada, LocalDate plancamento, int pduracao){
+  public Episodio(int pid, int pserieId, String pnome, int ptemporada, LocalDate plancamento, int pduracao){
     this.id = pid;
+    this.serieId = pserieId;
     this.nome = pnome;
     this.temporada = (short)ptemporada;
     this.lancamento = plancamento;
@@ -29,11 +30,11 @@ public class Episodio implements Registro{
   }
   
   public Episodio(){
-    this(-1, "", -1, LocalDate.now(), -1);
+    this(-1, -1, "", -1, LocalDate.now(), -1);
   }
   
-  public Episodio(String pnome, short ptemporada, LocalDate plancamento, short pduracao){
-    this(-1, pnome, ptemporada, plancamento, pduracao);
+  public Episodio(int pserieId, String pnome, short ptemporada, LocalDate plancamento, short pduracao){
+    this(-1, pserieId, pnome, ptemporada, plancamento, pduracao);
   }
   
   //Métodos Gets
