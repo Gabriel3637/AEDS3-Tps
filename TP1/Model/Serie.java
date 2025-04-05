@@ -7,12 +7,12 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import Entidades.Modelo.Registro;
+import TP1.Model.Registro;
 
 public class Serie implements Registro{
   private int id;
   private String nome;
-  private Localdate lancamento;
+  private LocalDate lancamento;
   private String sinopse;
   private String streaming;
   

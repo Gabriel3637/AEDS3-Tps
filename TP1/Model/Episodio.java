@@ -8,7 +8,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import Entidades.Modelo.Registro;
+import TP1.Model.Registro;
 
 public class Episodio implements Registro{
   private int serieId;

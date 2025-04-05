@@ -16,7 +16,7 @@ public class MenuSeries{
         System.out.printf("Nome......: %s%n", serie.nome);
         System.out.printf("Lançamento: %s%n", serie.lancamento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         System.out.printf("Sinopse...: %s%n", serie.sinopse);
-        System.out.printf("Streaming.: %s%n", serie.streaming;
+        System.out.printf("Streaming.: %s%n", serie.streaming);
         System.out.println("----------------------");
     }
   }
