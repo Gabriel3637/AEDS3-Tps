@@ -1,4 +1,4 @@
-package Entidades.Modelo;
+package TP1.Model;
 
 
 import java.io.IOException;

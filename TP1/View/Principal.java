@@ -1,4 +1,4 @@
-package Entidades;
+package TP1.Views;
 
 import java.util.Scanner;
 
@@ -14,12 +14,12 @@ public static void main(String[] args) {
         int opcao;
         do {
 
-            System.out.println("\n\nTP1");
+            System.out.println("\n\nPUCFlix 1.0");
             System.out.println("-------");
             System.out.println("> Início");
-            System.out.println("\n1 - Séries");
-            System.out.println("\n2 - Episódios");
-            System.out.println("0 - Sair");
+            System.out.println("1) Séries");
+            System.out.println("2) Episódios");
+            System.out.println("0) Sair");
 
             System.out.print("\nOpção: ");
             try {
@@ -33,7 +33,7 @@ public static void main(String[] args) {
                     (new MenuEpisodio()).menu();
                     break;
                 case 1:
-                    (new MenuSerie()).menu();
+                    (new MenuSeries()).menu();
                     break;
                 case 0:
                     break;

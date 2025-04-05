@@ -1,5 +1,6 @@
-package Entidades;
+package TP1.Model;
 
+import java.time.LocalDate;
 import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
@@ -11,25 +12,25 @@ import Entidades.Modelo.Registro;
 public class Serie implements Registro{
   private int id;
   private String nome;
-  private short lancamento;
+  private Localdate lancamento;
   private String sinopse;
   private String streaming;
   
   //Contrutores
   
-  public Serie(int pid, String pnome, int plancamento, String psinopse, String pstreaming){
+  public Serie(int pid, String pnome, LocalDate plancamento, String psinopse, String pstreaming){
     this.id = pid;
     this.nome = pnome;
-    this.lancamento = (short)plancamento;
+    this.lancamento = plancamento;
     this.sinopse = psinopse;
     this.streaming = pstreaming;
   }
   
   public Serie(){
-    this(-1, "", -1, "", "");
+    this(-1, "", LocalDate.now(), "", "");
   }
   
-  public Serie(String pnome, short plancamento, String psinopse, String pstreaming){
+  public Serie(String pnome, LocalDate plancamento, String psinopse, String pstreaming){
     this(-1, pnome, plancamento, psinopse, pstreaming);
   }
   
@@ -43,7 +44,7 @@ public class Serie implements Registro{
     return this.nome;
   }
   
-  public short getLancamento(){
+  public LocalDate getLancamento(){
     return this.lancamento;
   }
   
@@ -65,8 +66,8 @@ public class Serie implements Registro{
     this.nome = pnome;
   }
   
-  public void setLancamento(int plancamento){
-    this.lancamento = (short)plancamento;
+  public void setLancamento(LocalDate plancamento){
+    this.lancamento = plancamento;
   }
   
   public void setSinopse(String psinopse){
@@ -89,7 +90,7 @@ public class Serie implements Registro{
     
     dos.writeInt(this.id);
     dos.writeUTF(this.nome);
-    dos.writeShort(this.lancamento);
+    dos.writeInt((int)this.lancamento.toEpochDay());
     dos.writeUTF(this.sinopse);
     dos.writeUTF(this.streaming);
     
@@ -109,7 +110,7 @@ public class Serie implements Registro{
     
     this.id = dis.readInt();
     this.nome = dis.readUTF();
-    this.lancamento = dis.readShort();
+    this.lancamento = LocalDate.ofEpochDay(dis.readInt());
     this.sinopse = dis.readUTF();
     this.streaming = dis.readUTF();
     
