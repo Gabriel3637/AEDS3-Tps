@@ -185,7 +185,9 @@ public class MenuSeries{
 
         dadosCorretos = false;
         
+        System.out.print("Digite o nome da série: ");
         String nome = console.nextLine();  // Lê o nome digitado pelo usuário
+        System.out.println("");
         if(nome.isEmpty())
             return; 
         int o = -1;
@@ -310,8 +312,9 @@ public class MenuSeries{
     public void excluirSerie() {
         System.out.println("\nExclusão de serie");
         
-        
+        System.out.print("Digite o nome da série: ");
         String nome = console.nextLine();  // Lê o nome digitado pelo usuário
+        System.out.println("");
         if(nome.isEmpty())
             return; 
         int o = -1;
@@ -366,7 +369,9 @@ public class MenuSeries{
     }
     
     public void EpisodiosSerie(){
+      System.out.print("Digite o nome da série: ");
       String nome = console.nextLine();  // Lê o nome digitado pelo usuário
+      System.out.println("");
         if(nome.isEmpty())
             return; 
         int o = -1;
@@ -374,7 +379,6 @@ public class MenuSeries{
             Serie[] serie = arquivoSerie.readNome(nome);  // Chama o método de leitura da classe Arquivo
             if (serie.length>0) {
                 int n=1;
-                System.out.print("Digite o nome da série: ");
                 for(Serie s : serie) {
                     System.out.println((n++)+": "+s.getNome());
                 }

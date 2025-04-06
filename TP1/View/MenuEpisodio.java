@@ -190,7 +190,10 @@ public class MenuEpisodio{
 
         dadosCorretos = false;
         
+        System.out.print("Digite o nome do episódio: ");
         String nome = console.nextLine();  // Lê o nome digitado pelo usuário
+        System.out.println("");
+        
         if(nome.isEmpty())
             return; 
         int o = -1;
@@ -306,7 +309,10 @@ public class MenuEpisodio{
         System.out.println("\nExclusão de episodio");
         
         
+        System.out.print("Digite o nome do episódio: ");
         String nome = console.nextLine();  // Lê o nome digitado pelo usuário
+        System.out.println("");
+        
         if(nome.isEmpty())
             return; 
         int o = -1;
