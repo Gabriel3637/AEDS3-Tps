@@ -8,7 +8,6 @@
 ./Principal.java
 ./Model/Registro.java
 ./Model/Episodio.java
-./Model/ParIDNome.java
 ./Model/ParNomeId.java
 ./Model/Serie.java
 ./View/MenuSeries.java
