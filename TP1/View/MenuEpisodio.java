@@ -270,7 +270,7 @@ public class MenuEpisodio{
                 String novaDuracao = console.nextLine();
                 if (!novaDuracao.isEmpty()) {
                     try {
-                        episodioSelecionada.setTemporada(Integer.parseInt(novaDuracao));  // Atualiza a duração se fornecida
+                        episodioSelecionada.setDuracao(Integer.parseInt(novaDuracao));  // Atualiza a duração se fornecida
                     } catch (NumberFormatException e) {
                         System.err.println("Duracao inválida. Valor mantido.");
                     }

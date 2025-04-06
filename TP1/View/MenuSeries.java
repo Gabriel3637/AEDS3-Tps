@@ -66,7 +66,7 @@ public class MenuSeries{
                 excluirSerie();
                 break;
             case 5:
-                
+                EpisodiosSerie();
                 break;
             case 0:
                 break;
@@ -374,6 +374,7 @@ public class MenuSeries{
             Serie[] serie = arquivoSerie.readNome(nome);  // Chama o método de leitura da classe Arquivo
             if (serie.length>0) {
                 int n=1;
+                System.out.print("Digite o nome da série: ");
                 for(Serie s : serie) {
                     System.out.println((n++)+": "+s.getNome());
                 }
