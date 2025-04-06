@@ -1,4 +1,4 @@
-package aeds3; 
+package Model;
 
 /*
 Esta classe representa um objeto para uma entidade
@@ -12,13 +12,14 @@ Implementado pelo Prof. Marcos Kutova
 v1.0 - 2021
 */
 
+import Entidades.aed3.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class ParIdId implements aeds3.RegistroArvoreBMais<ParIdId> {
+public class ParIdId implements RegistroArvoreBMais<ParIdId> {
 
   private int id1;
   private int id2;
@@ -77,5 +78,11 @@ public class ParIdId implements aeds3.RegistroArvoreBMais<ParIdId> {
     this.id1 = dis.readInt();
     this.id2 = dis.readInt();
   }
+
+  public int getEpId() {
+    return id2;
+  }
+
+  
 
 }
