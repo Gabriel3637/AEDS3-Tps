@@ -14,7 +14,7 @@ public class MenuEpisodio{
     
   ArqEpisodio arquivoEpisodio;
   private static Scanner console = new Scanner(System.in);
-  int serieId
+  int serieId;
 
   public MenuEpisodio(int pserieid) throws Exception {
       arquivoEpisodio = new ArqEpisodio();
@@ -240,9 +240,9 @@ public class MenuEpisodio{
                 // Alteração de temporada
                 System.out.print("Nova temporada (deixe em branco para manter o anterior): ");
                 String novaTemporada = console.nextLine();
-                if (!novoSalarioStr.isEmpty()) {
+                if (!novaTemporada.isEmpty()) {
                     try {
-                        episodioSelecionado.setTemporada(Integer.parseInt(novaTemporada));  // Atualiza a temporada se fornecida
+                        episodioSelecionada.setTemporada(Integer.parseInt(novaTemporada));  // Atualiza a temporada se fornecida
                     } catch (NumberFormatException e) {
                         System.err.println("Temporada inválida. Valor mantido.");
                     }
@@ -268,9 +268,9 @@ public class MenuEpisodio{
                 // Alteração de duração
                 System.out.print("Nova duração (deixe em branco para manter o anterior): ");
                 String novaDuracao = console.nextLine();
-                if (!novoSalarioStr.isEmpty()) {
+                if (!novaDuracao.isEmpty()) {
                     try {
-                        episodioSelecionado.setTemporada(Integer.parseInt(novaDuracao));  // Atualiza a duração se fornecida
+                        episodioSelecionada.setTemporada(Integer.parseInt(novaDuracao));  // Atualiza a duração se fornecida
                     } catch (NumberFormatException e) {
                         System.err.println("Duracao inválida. Valor mantido.");
                     }

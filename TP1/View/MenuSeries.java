@@ -42,6 +42,7 @@ public class MenuSeries{
         System.out.println("2) Buscar");
         System.out.println("3) Alterar");
         System.out.println("4) Excluir");
+        System.out.println("5) Episódios");
         System.out.println("0) Retomar ao menu anterior");
 
         System.out.print("\nOpção: ");
@@ -63,6 +64,9 @@ public class MenuSeries{
                 break;
             case 4:
                 excluirSerie();
+                break;
+            case 5:
+                
                 break;
             case 0:
                 break;
@@ -361,6 +365,44 @@ public class MenuSeries{
         }
     }
     
+    public void EpisodiosSerie(){
+      String nome = console.nextLine();  // Lê o nome digitado pelo usuário
+        if(nome.isEmpty())
+            return; 
+        int o = -1;
+        try {
+            Serie[] serie = arquivoSerie.readNome(nome);  // Chama o método de leitura da classe Arquivo
+            if (serie.length>0) {
+                int n=1;
+                for(Serie s : serie) {
+                    System.out.println((n++)+": "+s.getNome());
+                }
+                System.out.print("Escolha a série: ");
+                
+                do { 
+                    try {
+                        o = Integer.valueOf(console.nextLine());
+                    } catch(NumberFormatException e) {
+                        o = -1;
+                    }
+                    if(o<=0 || o>n-1)
+                        System.out.println("Escolha um número entre 1 e "+(n-1));
+                }while(o<=0 || o>n-1);
+            } else {
+                System.out.println("Nenhuma série encontrado.");
+            }
+      
+            // Tenta ler a série com o ID fornecido
+            Serie serieSelecionada = serie[o-1];
+            
+            (new MenuEpisodio(serieSelecionada.getId())).menu();
+            
+        } catch (Exception e) {
+            System.out.println("Erro do sistema. Não foi possível encontrar a serie!");
+            e.printStackTrace();
+        }
+            
+    }
     
     
     

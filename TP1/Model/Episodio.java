@@ -33,7 +33,7 @@ public class Episodio implements Registro{
     this(-1, -1, "", -1, LocalDate.now(), -1);
   }
   
-  public Episodio(int pserieId, String pnome, short ptemporada, LocalDate plancamento, short pduracao){
+  public Episodio(int pserieId, String pnome, int ptemporada, LocalDate plancamento, int pduracao){
     this(-1, pserieId, pnome, ptemporada, plancamento, pduracao);
   }
   
@@ -66,14 +66,14 @@ public class Episodio implements Registro{
   public void setNome(String pnome){
     this.nome = pnome;
   }
-  public void setTemporada(short ptemporada){
-    this.temporada = ptemporada;
+  public void setTemporada(int ptemporada){
+    this.temporada = (short)ptemporada;
   }
   public void setLancamento(LocalDate plancamento){
     this.lancamento = plancamento;
   }
-  public void setDuracao(short pduracao){
-    this.duracao = pduracao;
+  public void setDuracao(int pduracao){
+    this.duracao = (short)pduracao;
   }
   public void setSerieId(int pserieId){
     this.serieId = pserieId;
