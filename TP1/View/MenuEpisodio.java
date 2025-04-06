@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 import Model.Episodio;
+import Model.Serie;
 
 public class MenuEpisodio {
     ArquivoEpisodio arqEpisodio;
@@ -149,15 +150,33 @@ public class MenuEpisodio {
             }
         } while (!nomeValido);
 
+        if(nome.isEmpty())
+            return; 
+
         try {
-            Episodio ep = arqEpisodio.read(nome, serieId); // Chama o método de leitura da classe Arquivo
-            if (ep != null) {
-                mostraEpisodio(ep); // Exibe os detalhes do cliente encontrado
+            Episodio[] serie = arqEpisodio.readNome(nome);  // Chama o método de leitura da classe Arquivo
+            if (serie.length>0) {
+                int n=1;
+                for(Episodio s : serie) {
+                    System.out.println((n++)+": "+s.getNome());
+                }
+                System.out.print("Escolha o episodio: ");
+                int o;
+                do { 
+                    try {
+                        o = Integer.valueOf(console.nextLine());
+                    } catch(NumberFormatException e) {
+                        o = -1;
+                    }
+                    if(o<=0 || o>n-1)
+                        System.out.println("Escolha um número entre 1 e "+(n-1));
+                }while(o<=0 || o>n-1);
+                mostrarEpisdio(serie[o-1]);  // Exibe os detalhes da série encontrada
             } else {
-                System.out.println("Episodio não encontrado.");
+                System.out.println("Nenhuma série encontrado.");
             }
-        } catch (Exception e) {
-            System.out.println("Erro do sistema. Não foi possível buscar o episodio!");
+        } catch(Exception e) {
+            System.out.println("Erro do sistema. Não foi possível buscar as series!");
             e.printStackTrace();
         }
     }
