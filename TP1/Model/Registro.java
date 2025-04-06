@@ -1,9 +1,10 @@
-package TP1.Model;
+package Model;
 
 
 import java.io.IOException;
 
 public interface Registro {
+    public String getNome();
     public void setId(int i);
     public int getId();
     public byte[] toByteArray() throws IOException;

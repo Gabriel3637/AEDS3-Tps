@@ -5,9 +5,9 @@ import java.io.File;
 import java.io.RandomAccessFile;
 import java.lang.reflect.Constructor;
 
-import aed3.HashExtensivel;
-import aed3.ParIDEndereco;
-import aed3.Registro;
+import Entidades.aed3.HashExtensivel;
+import Entidades.aed3.ParIDEndereco;
+import Model.Registro;
 
 public class Arquivo<T extends Registro> {
     final int TAM_CABECALHO = 12;
@@ -17,15 +17,15 @@ public class Arquivo<T extends Registro> {
     HashExtensivel<ParIDEndereco> indiceDireto;
 
     public Arquivo(String na, Constructor<T> c) throws Exception {
-        File d = new File(".\\dados");
+        File d = new File("./Dados");
         if(!d.exists())
             d.mkdir();
 
-        d = new File(".\\dados\\"+na);
+        d = new File("./Dados/"+na);
         if(!d.exists())
             d.mkdir();
 
-        this.nomeArquivo = ".\\dados\\"+na+"\\"+na+".db";
+        this.nomeArquivo = "./Dados/"+na+"/"+na+".db";
         this.construtor = c;
         arquivo = new RandomAccessFile(this.nomeArquivo, "rw");
         if(arquivo.length()<TAM_CABECALHO) {
@@ -37,8 +37,8 @@ public class Arquivo<T extends Registro> {
         indiceDireto = new HashExtensivel<>(
             ParIDEndereco.class.getConstructor(), 
             4, 
-            ".\\dados\\"+na+"\\"+na+".d.db", // diretório 
-            ".\\dados\\"+na+"\\"+na+".c.db"  // cestos
+            "./Dados/"+na+"/"+na+".d.db", // diretório 
+            "./Dados/"+na+"/"+na+".c.db"  // cestos
         );
     }
 

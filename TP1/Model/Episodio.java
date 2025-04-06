@@ -1,4 +1,4 @@
-package TP1.Model;
+package Model;
 
 
 import java.time.LocalDate;
@@ -8,7 +8,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import TP1.Model.Registro;
+import Model.Registro;
 
 public class Episodio implements Registro{
   private int serieId;

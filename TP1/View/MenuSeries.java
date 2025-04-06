@@ -1,16 +1,24 @@
-package TP1.Views;
+package View;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-import TP1.Model.Serie;
+import Model.Serie;
+
+import Entidades.aed3.ArqSerie;
+
 
 public class MenuSeries{
 
+    
+  ArqSerie arquivoSerie;
   private static Scanner console = new Scanner(System.in);
-  
-  
+
+  public MenuSeries() throws Exception {
+      arquivoSerie = new ArqSerie();
+  }
+    
   public void mostrarSerie(Serie serie) {
     if (serie != null) {
         System.out.println("\nDetalhes da Série:");
@@ -121,7 +129,7 @@ public class MenuSeries{
       if(resp=='S' || resp=='s') {
           try {
               Serie c = new Serie(nome, lancamento, sinopse, streaming);
-              arqSeries.create(c);
+              arquivoSerie.create(c);
               System.out.println("Serie incluída com sucesso.");
           } catch(Exception e) {
               System.out.println("Erro do sistema. Não foi possível incluir a série!");
@@ -140,7 +148,7 @@ public class MenuSeries{
             return; 
 
         try {
-            Serie[] serie = arqSeries.readNome(nome);  // Chama o método de leitura da classe Arquivo
+            Serie[] serie = arquivoSerie.readNome(nome);  // Chama o método de leitura da classe Arquivo
             if (serie.length>0) {
                 int n=1;
                 for(Serie s : serie) {
@@ -176,9 +184,9 @@ public class MenuSeries{
         String nome = console.nextLine();  // Lê o nome digitado pelo usuário
         if(nome.isEmpty())
             return; 
-        int o;
+        int o = -1;
         try {
-            Serie[] serie = arqSeries.readNome(nome);  // Chama o método de leitura da classe Arquivo
+            Serie[] serie = arquivoSerie.readNome(nome);  // Chama o método de leitura da classe Arquivo
             if (serie.length>0) {
                 int n=1;
                 for(Serie s : serie) {
@@ -275,7 +283,7 @@ public class MenuSeries{
                 char resp = console.next().charAt(0);
                 if (resp == 'S' || resp == 's') {
                     // Salva as alterações no arquivo
-                    boolean alterado = arqSeries.update(serieSelecionada);
+                    boolean alterado = arquivoSerie.update(serieSelecionada);
                     if (alterado) {
                         System.out.println("Serie alterado com sucesso.");
                     } else {
@@ -302,9 +310,9 @@ public class MenuSeries{
         String nome = console.nextLine();  // Lê o nome digitado pelo usuário
         if(nome.isEmpty())
             return; 
-        int o;
+        int o = -1;
         try {
-            Serie[] serie = arqSeries.readNome(nome);  // Chama o método de leitura da classe Arquivo
+            Serie[] serie = arquivoSerie.readNome(nome);  // Chama o método de leitura da classe Arquivo
             if (serie.length>0) {
                 int n=1;
                 for(Serie s : serie) {
@@ -335,7 +343,7 @@ public class MenuSeries{
                 char resp = console.next().charAt(0);  // Lê a resposta do usuário
 
                 if (resp == 'S' || resp == 's') {
-                    boolean excluido = arqSerie.delete(serieSelecionada.getId());  // Chama o método de exclusão no arquivo
+                    boolean excluido = arquivoSerie.delete(serieSelecionada.getId());  // Chama o método de exclusão no arquivo
                     if (excluido) {
                         System.out.println("Serie excluído com sucesso.");
                     } else {

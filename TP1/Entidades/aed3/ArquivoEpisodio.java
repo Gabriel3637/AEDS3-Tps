@@ -1,7 +1,10 @@
+package Entidades.aed3;
+
 import Entidades.aed3.*;
-import TP1.Model.Episodio;
-import aed3.Arquivo;
-import aed3.HashExtensivel;
+import Model.Episodio;
+import Entidades.aed3.Arquivo;
+import Entidades.aed3.HashExtensivel;
+
 
 public class ArquivoEpisodio extends Entidades.aed3.Arquivo<Episodio> {
 

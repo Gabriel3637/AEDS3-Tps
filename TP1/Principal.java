@@ -1,4 +1,4 @@
-package TP1.Views;
+import View.*;
 
 import java.util.Scanner;
 
@@ -30,7 +30,7 @@ public static void main(String[] args) {
 
             switch (opcao) {
                 case 2:
-                    (new MenuEpisodio()).menu();
+                    //(new MenuEpisodio()).menup();
                     break;
                 case 1:
                     (new MenuSeries()).menu();

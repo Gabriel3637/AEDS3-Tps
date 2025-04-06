@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
-import aed3.RegistroHashExtensivel;
+import Entidades.aed3.RegistroHashExtensivel;
 
 import java.lang.reflect.Constructor;
 

@@ -1,10 +1,10 @@
-package TP1.View;
+package View;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-import TP1.Model.Episodio;
+import Model.Episodio;
 
 public class MenuEpisodio {
     ArquivoEpisodio arqEpisodio;

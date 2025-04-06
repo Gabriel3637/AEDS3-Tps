@@ -7,7 +7,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import interfaces.RegistroHashExtensivel;
+import Entidades.aed3.RegistroHashExtensivel;
 
 public class ParIDNome implements RegistroHashExtensivel<ParIDNome> {
 

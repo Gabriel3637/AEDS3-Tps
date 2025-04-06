@@ -1,5 +1,5 @@
 import java.io.*;
-import aed3.HashExtensivel;
+import Entidades.aed3.HashExtensivel;
 
 public class ArquivoSerie {
 
@@ -17,12 +17,6 @@ public class ArquivoSerie {
         indiceNome = new HashExtensivel<>(ParNomeID.class.getConstructor(),4,caminhoIndice,caminhoCestos);
     }
     
-    public interface RegistroComNome extends Registro {
-    public String getNome();
-    public int getId();
-    public void setId(int id);
-}
-
     public int create(RegistroComNome obj) throws Exception {
         arquivo.seek(arquivo.length());
         long pos = arquivo.getFilePointer();
