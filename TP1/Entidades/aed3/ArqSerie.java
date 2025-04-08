@@ -1,6 +1,7 @@
 package Entidades.aed3;
 import Model.Serie;
 import Model.ParNomeId;
+import Model.ParIdId;
 
 import java.util.ArrayList;
 
@@ -9,7 +10,8 @@ import Entidades.aed3.*;
 public class ArqSerie extends Arquivo<Serie> {
     Arquivo<Serie> arquivo;
     ArvoreBMais<ParNomeId> indiceNome;
-
+    ArvoreBMais<ParIdId> indiceEpisodio;
+    
     public ArqSerie() throws Exception {
         super("Series", Serie.class.getConstructor());
 
@@ -17,6 +19,10 @@ public class ArqSerie extends Arquivo<Serie> {
             ParNomeId.class.getConstructor(), 
             5, 
             "./Dados/Series/indiceNome.db");
+        indiceEpisodio = new ArvoreBMais<>(
+            ParIdId.class.getConstructor(),
+            5,
+            "./Dados/Episodio/indiceId.db");
     }
 
     @Override
@@ -44,9 +50,15 @@ public class ArqSerie extends Arquivo<Serie> {
     @Override
     public boolean delete(int id) throws Exception {
         Serie s = read(id);   // na superclasse
+        
         if(s!=null) {
+          ArrayList<ParIdId> ptis = indiceEpisodio.read(new ParIdId(id, -1));
+          if(ptis.size() == 0){
             if(super.delete(id))
                 return indiceNome.delete(new ParNomeId(s.getNome(), id));
+          }else{
+            System.out.println("Erro! Exclua os episódios antes de excluir a série!");
+          }
         }
         return false;
     }
