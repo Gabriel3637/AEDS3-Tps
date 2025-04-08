@@ -13,4 +13,5 @@
 ./Model/ParIDNome.java
 ./Model/ParNomeId.java
 ./Model/Serie.java
+./View/MenuEpisodio.java
 ./View/MenuSeries.java
