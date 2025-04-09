@@ -2,6 +2,8 @@ package View;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Scanner;
 
 import Model.Episodio;
@@ -160,8 +162,13 @@ public class MenuEpisodio{
             Episodio[] episodio = arquivoEpisodio.readNomeSerieId(nome, serieId);  // Chama o método de leitura da classe Arquivo
             if (episodio.length>0) {
                 int n=1;
+                System.out.println("Ordenar por temporada? (S/N)");
+                char resp = console.nextLine().charAt(0);
+                if(resp=='S' || resp=='s') {
+                    Arrays.sort(episodio, Comparator.comparingInt(e -> e.getTemporada()));
+                }
                 for(Episodio s : episodio) {
-                    System.out.println((n++)+": "+s.getNome());
+                    System.out.println((n++)+": "+s.getNome() + " - Temporada: "+s.getTemporada());
                 }
                 System.out.print("Escolha o episódio: ");
                 int o;
