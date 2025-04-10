@@ -87,12 +87,12 @@ public class Episodio implements Registro{
   public byte[] toByteArray() throws IOException{
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     DataOutputStream dos = new DataOutputStream(baos);
-    
     dos.writeInt(this.id);
     dos.writeUTF(this.nome);
     dos.writeShort(this.temporada);
     dos.writeInt((int)lancamento.toEpochDay());
     dos.writeShort(this.duracao);
+    dos.writeInt(this.serieId);
     
     return baos.toByteArray();
   }
@@ -112,6 +112,7 @@ public class Episodio implements Registro{
     this.temporada = dis.readShort();
     this.lancamento = LocalDate.ofEpochDay(dis.readInt());
     this.duracao = dis.readShort();
+    this.serieId = dis.readInt();
   }
   
   
