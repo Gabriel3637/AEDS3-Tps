@@ -76,7 +76,11 @@ Classe que gerencia o CRUD das atuações, mantendo dois índices B+:
 
 #### 'ArqEpisodio'
 
+Classe que gerencia os índices do episódio e o armazenamento dos episódios.
 
+Métodos principais:
+  - 'readNomeSerieId(String nome, int serieId)' - recebe um nome e uma série e retorna um array com os episódios
+  - 'create(Episodio s)' - cria um episódio e salva no indice
 
 ---
 
