@@ -21,16 +21,24 @@ public class MenuAtuacao{
 
   public MenuAtuacao(int pserieId) throws Exception {
       arquivoAtuacao = new ArqAtuacao();
+      arquivoAtor = new ArqAtor();
       this.serieId = pserieId;
   }
     
   public void mostrarAtuacao(Atuacao atuacao) {
-    if (atuacao != null) {
-        System.out.println("\nDetalhes da atuação:");
-        System.out.println("----------------------");
-        System.out.printf("Ator..: %s%n", atuacao.getAtorId());
-        System.out.printf("Papel: %s%n", atuacao.getPapel());
-        System.out.println("----------------------");
+    try{
+      if (atuacao != null) {
+          Ator atorSelecionado = arquivoAtor.readId(atuacao.getAtorId());
+      
+          System.out.println("\nDetalhes da atuação:");
+          System.out.println("----------------------");
+          System.out.printf("Ator..: %s%n", atorSelecionado.getNome());
+          System.out.printf("Papel: %s%n", atuacao.getPapel());
+          System.out.println("----------------------");
+      }
+    }catch(Exception e){
+      System.out.println("Erro do sistema. Não foi possível encontrar o ator!");
+      e.printStackTrace();
     }
   }
   
@@ -56,6 +64,7 @@ public class MenuAtuacao{
         System.out.println("2) Buscar");
         System.out.println("3) Alterar");
         System.out.println("4) Excluir");
+        System.out.println("4) Listar atuações");
         System.out.println("0) Retomar ao menu anterior");
 
         System.out.print("\nOpção: ");
@@ -77,6 +86,9 @@ public class MenuAtuacao{
                 break;
             case 4:
                 excluirAtuacao();
+                break;
+            case 5:
+                listarAtuacao();
                 break;
             case 0:
                 break;
@@ -195,7 +207,7 @@ public class MenuAtuacao{
             }
             
             o = -1;
-            Atuacao[] atuacao = arquivoAtuacao.readAtor(ator[o-1].getId());  // Chama o método de leitura da classe Arquivo
+            Atuacao[] atuacao = arquivoAtuacao.readAtorSerie(ator[o-1].getId(), this.serieId);  // Chama o método de leitura da classe Arquivo
             if (atuacao.length>0) {
                 int n=1;
                 for(Atuacao s : atuacao) {
@@ -261,7 +273,7 @@ public class MenuAtuacao{
             }
             
             o = -1;
-            Atuacao[] atuacao = arquivoAtuacao.readAtor(ator[o-1].getId());  // Chama o método de leitura da classe Arquivo
+            Atuacao[] atuacao = arquivoAtuacao.readAtorSerie(ator[o-1].getId(), this.serieId);  // Chama o método de leitura da classe Arquivo
             if (atuacao.length>0) {
                 int n=1;
                 for(Atuacao s : atuacao) {
@@ -405,7 +417,7 @@ public class MenuAtuacao{
           Ator atorSelecionado = ator[o-1];
           
             o = -1;
-            Atuacao[] atuacao = arquivoAtuacao.readAtor(atorSelecionado.getId());  // Chama o método de leitura da classe Arquivo
+            Atuacao[] atuacao = arquivoAtuacao.readAtorSerie(atorSelecionado.getId(), this.serieId);  // Chama o método de leitura da classe Arquivo
             if (atuacao.length>0) {
                 int n=1;
                 for(Atuacao s : atuacao) {
@@ -427,16 +439,16 @@ public class MenuAtuacao{
             }
 
             // Tenta selecionar atuacao do array
-            Atuacao serieSelecionada = atuacao[o-1];
-            if (serieSelecionada != null) {
+            Atuacao atuacaoSelecionada = atuacao[o-1];
+            if (atuacaoSelecionada != null) {
                 System.out.println("Atuação encontrada:");
-                mostrarAtuacao(serieSelecionada);  // Exibe os dados da atuação para confirmação
+                mostrarAtuacao(atuacaoSelecionada);  // Exibe os dados da atuação para confirmação
 
                 System.out.print("\nConfirma a exclusão do atuação? (S/N) ");
                 char resp = console.next().charAt(0);  // Lê a resposta do usuário
 
                 if (resp == 'S' || resp == 's') {
-                    boolean excluido = arquivoAtuacao.delete(serieSelecionada.getId());  // Chama o método de exclusão no arquivo
+                    boolean excluido = arquivoAtuacao.delete(atuacaoSelecionada.getId());  // Chama o método de exclusão no arquivo
                     if (excluido) {
                         System.out.println("Atuação excluída com sucesso.");
                     } else {
@@ -452,6 +464,19 @@ public class MenuAtuacao{
             System.out.println("Erro do sistema. Não foi possível excluir a atuação!");
             e.printStackTrace();
         }
+    }
+    
+    void listarAtuacao(){
+      try{
+        Atuacao[] atuacao = arquivoAtuacao.readSerie(this.serieId);
+        for(Atuacao s : atuacao){
+          mostrarAtuacao(s);
+        }
+      }catch (Exception e){
+        System.out.println("Erro do sistema. Não foi encontrado atuação!");
+            e.printStackTrace();
+      }
+      
     }
     
     

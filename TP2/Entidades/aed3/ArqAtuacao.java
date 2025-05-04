@@ -35,7 +35,7 @@ public class ArqAtuacao extends Arquivo<Atuacao> {
         return id;
     }
 
-    public Atuacao[] readBySerieId(int serieId) throws Exception {
+    public Atuacao[] readSerie(int serieId) throws Exception {
         ArrayList<ParIdId> lista = indiceSerie.read(new ParIdId(serieId, -1));
         if (lista == null || lista.size() == 0) return null;
 
@@ -59,6 +59,31 @@ public class ArqAtuacao extends Arquivo<Atuacao> {
         }
 
         return atuacoes;
+    }
+    
+    public Atuacao[] readAtorSerie(int atorId, int serieId) throws Exception {
+        ArrayList<ParIdId> ptis = indiceSerie.read(new ParIdId(serieId, -1));
+        ArrayList<ParIdId> ptis2 = indiceAtor.read(new ParIdId(atorId, -1));
+        if(ptis.size()>0 && ptis2.size()>0) {
+            int maior;
+            if(ptis.size() > ptis2.size()){
+                maior = ptis.size();
+            }else{
+                maior = ptis2.size();
+            }
+            Atuacao[] atuacao = new Atuacao[maior];
+            int i=0;
+            for(ParIdId pti: ptis)
+                for(ParIdId pti2: ptis2){
+                    if(pti.getEpId() == pti2.getEpId()){
+                        atuacao[i++] = read(pti2.getEpId());
+                    }
+                } 
+                
+            return atuacao;
+        }
+        else 
+            return null;
     }
 
     @Override
@@ -97,7 +122,7 @@ public class ArqAtuacao extends Arquivo<Atuacao> {
     }
 
     public boolean deleteBySerie(int serieId) throws Exception {
-        Atuacao[] atuacoes = readBySerieId(serieId);
+        Atuacao[] atuacoes = readSerie(serieId);
         if (atuacoes != null) {
             for (Atuacao a : atuacoes) {
                 delete(a.getId());
