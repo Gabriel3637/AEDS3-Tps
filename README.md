@@ -2,7 +2,7 @@
 
 ## Descrição Geral
 
-Neste trabalho prático, evoluímos o sistema desenvolvido no TP1 para lidar com **relacionamentos do tipo N:N** entre entidades, mais especificamente entre **Séries** e **Atores**, simulando a plataforma de streaming _PUCFlix_.
+Neste trabalho prático, evoluímos o sistema desenvolvido no TP1 para lidar com **relacionamentos do tipo N:N** entre entidades, mais especificamente entre **Séries** e **Atores**.
 
 Nosso sistema é capaz de:
 
@@ -136,13 +136,13 @@ Métodos principais:
 
 ## Relato da Experiência
 
-O trabalho foi dividido entre os membros do grupo para otimizar o tempo e aprofundar o aprendizado em áreas específicas. A parte de **relacionamento N:N (Atuações)** foi particularmente desafiadora, especialmente na criação de duas árvores B+ distintas e sincronizadas.
+O trabalho foi dividido entre os membros do grupo para otimizar o tempo e aprofundar o aprendizado em áreas específicas. A parte de **relacionamento N:N (Atuações)** foi particularmente desafiadora, especialmente em acessar o papel pelo menu de atores. Evidencia-se também com relação à busca de mais de um episódio e mais de um ator em atuações.
 
 ### Principais Desafios:
 
 - **Manter a consistência entre os arquivos de dados e os índices** (inclusão e exclusão dupla).
 - **Testar as operações compostas** (excluir série, listar atores, etc.).
-- **Garantir que os dados não se corrompessem ao atualizar os vínculos** entre entidades.
+- **Garantir que não haja alteração imprópria ao atualizar os vínculos** entre entidades.
 
 ### Aprendizados:
 
