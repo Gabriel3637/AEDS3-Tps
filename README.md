@@ -94,35 +94,19 @@ Todos os requisitos foram implementados com sucesso, com testes cobrindo inclus�
 
 ## ✅ Checklist de Verificação
 
-- As operações de inclusão, busca, alteração e exclusão de atores estão implementadas e funcionando corretamente?  
-  ✔️ **Sim**
+| Requisito                                                                                                           | Status |
+|--------------------------------------------------------------------------------------------------------------------|--------|
+| As operações de inclusão, busca, alteração e exclusão de atores estão implementadas e funcionando corretamente?    | ✔ SIM  |
+| O relacionamento entre séries e atores foi implementado com árvores B+ e funciona corretamente, assegurando a consistência entre as duas entidades? | ✔ SIM  |
+| É possível consultar quais são os atores de uma série?                                                             | ✔ SIM  |
+| É possível consultar quais são as séries de um ator?                                                               | ✔ SIM  |
+| A remoção de séries remove os seus vínculos de atores?                                                             | ✔ SIM  |
+| A inclusão de um ator em uma série se limita aos atores existentes?                                                | ✔ SIM  |
+| A remoção de um ator checa se há alguma série vinculada a ele?                                                     | ✔ SIM  |
+| O trabalho está funcionando corretamente?                                                                           | ✔ SIM  |
+| O trabalho está completo?                                                                                          | ✔ SIM  |
+| O trabalho é original e não a cópia de um trabalho de outro grupo?                                                 | ✔ SIM  |
 
-- O relacionamento entre séries e atores foi implementado com árvores B+ e funciona corretamente, assegurando a consistência entre as duas entidades?  
-  ✔️ **Sim**
-
-- É possível consultar quais são os atores de uma série?  
-  ✔️ **Sim**
-
-- É possível consultar quais são as séries de um ator?  
-  ✔️ **Sim**
-
-- A remoção de séries remove os seus vínculos de atores?  
-  ✔️ **Sim**
-
-- A inclusão de um ator em uma série se limita aos atores existentes?  
-  ✔️ **Sim**
-
-- A remoção de um ator checa se há alguma série vinculada a ele?  
-  ✔️ **Sim**
-
-- O trabalho está funcionando corretamente?  
-  ✔️ **Sim**
-
-- O trabalho está completo?  
-  ✔️ **Sim**
-
-- O trabalho é original e não a cópia de um trabalho de outro grupo?  
-  ✔️ **Sim**
 
 ---
 
