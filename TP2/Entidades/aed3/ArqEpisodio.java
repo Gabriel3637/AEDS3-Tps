@@ -41,6 +41,7 @@ public class ArqEpisodio extends Arquivo<Episodio> {
             return null;
         ArrayList<ParNomeId> ptis = indiceNome.read(new ParNomeId(nome, -1));
         ArrayList<ParIdId> ptis2 = indiceSerie.read(new ParIdId(serieId, -1));
+        /* 
         if(ptis.size()>0 && ptis2.size()>0) {
             int maior;
             if(ptis.size() > ptis2.size()){
@@ -60,7 +61,23 @@ public class ArqEpisodio extends Arquivo<Episodio> {
             return ep;
         }
         else 
-            return null;
+            return null;*/
+            if(ptis.size()>0 && ptis2.size()>0) {
+                int maior;
+                ArrayList<Episodio> atuacaoarraylist = new ArrayList<>();
+                int i=0;
+                for(ParNomeId pti: ptis)
+                    for(ParIdId pti2: ptis2){
+                        //System.out.println(pti.getId() + " " + pti2.getEpId());
+                        if(pti.getId() == pti2.getEpId()){
+                            atuacaoarraylist.add(read(pti2.getEpId()));
+                        }
+                    } 
+                    
+                return atuacaoarraylist.toArray(new Episodio[atuacaoarraylist.size()]);
+            }
+            else 
+                return null;
     }
 
     @Override
