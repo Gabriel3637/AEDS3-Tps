@@ -206,14 +206,13 @@ public class MenuAtuacao{
                 System.out.println("Nenhum ator encontrado.");
             }
             
-            o = -1;
             Atuacao[] atuacao = arquivoAtuacao.readAtorSerie(ator[o-1].getId(), this.serieId);  // Chama o método de leitura da classe Arquivo
             if (atuacao.length>0) {
                 int n=1;
                 for(Atuacao s : atuacao) {
                     System.out.println((n++)+": "+s.getPapel());
                 }
-                System.out.print("Escolha o atuacao: ");
+                System.out.print("Escolha a atuacao: ");
                 
                 do { 
                     try {
@@ -272,7 +271,7 @@ public class MenuAtuacao{
                 System.out.println("Nenhum ator encontrado.");
             }
             
-            o = -1;
+            
             Atuacao[] atuacao = arquivoAtuacao.readAtorSerie(ator[o-1].getId(), this.serieId);  // Chama o método de leitura da classe Arquivo
             if (atuacao.length>0) {
                 int n=1;
