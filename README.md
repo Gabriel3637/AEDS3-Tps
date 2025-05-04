@@ -1,69 +1,133 @@
-# AEDS3-Tp 1
+# AEDS3 - TP2: Relacionamento N:N entre Séries e Atores
 
-# Trabalho Prático - Sistema de Arquivos da Entidade Série
+## 📌 Descrição Geral
 
-## Descrição do Trabalho
+Neste trabalho prático, evoluímos o sistema desenvolvido no TP1 para lidar com **relacionamentos do tipo N:N** entre entidades, mais especificamente entre **Séries** e **Atores**, simulando a plataforma de streaming _PUCFlix_.
 
-Nosso trabalho consiste na implementação de um sistema de arquivos genérico em Java, capaz de realizar operações de CRUD (Create, Read, Update, Delete) sobre registros de uma entidade séries. O sistema é baseado no uso da classe `RandomAccessFile`, com controle manual de alocação dos dados em disco e suporte a indexação eficiente por meio de **hashing extensível**.
+Nosso sistema é capaz de:
 
-A aplicação é modular, de modo que é possível reutilizá-la com diferentes tipos de dados, desde que estes implementem a interface `Registro`. O sistema garante persistência e acesso eficiente aos dados, mesmo com inserções, exclusões e atualizações realizadas em ordem aleatória.
+- Armazenar séries, episódios e atores em arquivos binários utilizando `RandomAccessFile`.
+- Realizar operações completas de **CRUD** para todas as entidades.
+- Implementar relacionamentos N:N entre Séries e Atores através de duas **árvores B+**, permitindo a consulta eficiente de:
+  - Quais atores participam de determinada série.
+  - Em quais séries um determinado ator aparece.
+- Garantir **consistência dos dados**, impedindo, por exemplo, a exclusão de um ator ainda vinculado a uma série.
 
-## Participantes
+A modelagem foi orientada a objetos e o projeto foi modularizado para facilitar testes, manutenção e evolução.
 
+---
+
+## 👥 Participantes
+
+- Alexandre Niess
 - Gabriel Valedo
 - Henrique Gilberti
-- Leonardo Amaral 
-
-## Estrutura de Classes
-
-### `Registro`
-Interface que define os métodos básicos que qualquer tipo de dado deve implementar para ser manipulado pelo sistema:
-- `byte[] toByteArray()`: Serializa o objeto em um vetor de bytes.
-- `void fromByteArray(byte[] ba)`: Reconstrói o objeto a partir de um vetor de bytes.
-- `int getID()`: Retorna o identificador único do registro.
-
-### `Arquivo<T extends Registro>`
-Classe genérica responsável pelas operações CRUD. Principais métodos:
-- `int create(T obj)`: Cria um novo registro no arquivo e retorna seu ID.
-- `T read(int id)`: Lê um registro com base no ID.
-- `boolean update(T novoObj)`: Atualiza um registro existente.
-- `boolean delete(int id)`: Remove logicamente um registro.
-
-### `HashExtensivel<T extends Registro>`
-Classe de indexação baseada em hashing extensível. Permite localizar rapidamente os endereços dos registros no arquivo de dados.
-- `void create(int chave, long endereco)`: Adiciona uma nova entrada ao índice.
-- `long read(int chave)`: Recupera o endereço associado a uma chave.
-- `boolean delete(int chave)`: Remove uma entrada do índice.
-
-
-### `EntidadeExemplo` 
-Classe que representa a série. Implementa a interface `Registro` com seus próprios atributos e lógica de serialização.
+- Leonardo Amaral
 
 ---
 
-## Relato da Experiência
+## 🧱 Estrutura de Classes e Funcionalidades
 
-Implementamos todos os requisitos especificados no trabalho. O desenvolvimento foi dividido entre os membros do grupo, com reuniões frequentes para integração das partes. 
+### 🔹 `Atuacao` (Model)
 
-### Principais desafios:
-- **Manipulação de arquivos binários** com `RandomAccessFile` exigiu atenção cuidadosa para evitar sobrescritas e garantir alinhamento correto dos dados.
-- A **implementação do hashing extensível** foi a parte mais desafiadora, especialmente no controle de splits de buckets e duplicação do diretório.
-- Testar as atualizações foi delicado, pois exigia reescrita parcial de dados e atualização do índice.
-- 
-### Aprendizado:
-O projeto proporcionou um entendimento profundo sobre o funcionamento de sistemas de arquivos de baixo nível, organização de dados em disco e técnicas de indexação. Trabalhar com manipulação manual de bytes e endereços simulou bem o comportamento de sistemas reais de banco de dados.
+Classe que representa o relacionamento entre um ator e uma série.
 
-### Resultados:
+- Atributos: `id`, `serieId`, `atorId`, `papel`
+- Métodos principais:
+  - `toByteArray()` e `fromByteArray()` – serialização e desserialização
+  - Getters e setters
 
-| Requisito                                                                                         | Status |
-|--------------------------------------------------------------------------------------------------|--------|
-| O trabalho possui um índice direto implementado com a tabela hash extensível?                   | ✔ SIM  |
-| A operação de inclusão insere um novo registro no fim do arquivo e no índice e retorna o ID?   | ✔ SIM  |
-| A operação de busca retorna os dados do registro, após localizá-lo por meio do índice direto?  | ✔ SIM  |
-| A operação de alteração trata corretamente aumentos e reduções no espaço do registro?          | ✔ SIM  |
-| A operação de exclusão marca o registro como excluído e o remove do índice direto?             | ✔ SIM  |
-| O trabalho está funcionando corretamente?                                                       | ✔ SIM  |
-| O trabalho está completo?                                                                       | ✔ SIM  |
-| O trabalho é original e não é cópia de outro grupo?                                             | ✔ SIM  |
+### 🔹 `ArqAtuacao` (Entidades.aed3)
+
+Classe que gerencia o CRUD das atuações, mantendo dois índices B+:
+
+- `indiceSerieAtuacao.db` → busca por `idSerie`
+- `indiceAtorAtuacao.db` → busca por `idAtor`
+- Métodos principais:
+  - `create(Atuacao)` – cria e indexa
+  - `readBySerieId(int)` – retorna as atuações de uma série
+  - `readByAtorId(int)` – retorna as atuações de um ator
+  - `delete(int)` – remove atuação e atualiza índices
+  - `deleteBySerie(int)` – apaga vínculos de uma série
+  - `existsForAtor(int)` – verifica se um ator tem vínculos
+
+### 🔹 `ParIdId` (Model)
+
+Classe auxiliar para armazenar pares de inteiros utilizados nos índices B+.
 
 ---
+
+## 💻 O que o sistema faz?
+
+- Permite cadastrar, consultar, atualizar e excluir **séries**, **episódios** e **atores**.
+- Implementa o CRUD completo da classe `Atuacao`, incluindo persistência em disco.
+- Garante integridade dos dados durante operações de exclusão:
+  - **Não é possível excluir um ator se ele estiver vinculado a alguma série.**
+  - **Ao excluir uma série, todas as suas atuações são removidas.**
+- Permite consultas bidirecionais do relacionamento N:N:
+  - Séries → Atores
+  - Atores → Séries
+
+---
+
+## 📖 Relato da Experiência
+
+O trabalho foi dividido entre os membros do grupo para otimizar o tempo e aprofundar o aprendizado em áreas específicas. A parte de **relacionamento N:N (Atuações)** foi particularmente desafiadora, especialmente na criação de duas árvores B+ distintas e sincronizadas.
+
+### Principais Desafios:
+
+- **Manter a consistência entre os arquivos de dados e os índices** (inclusão e exclusão dupla).
+- **Testar as operações compostas** (excluir série, listar atores, etc.).
+- **Garantir que os dados não se corrompessem ao atualizar os vínculos** entre entidades.
+
+### Aprendizados:
+
+- A importância de índices auxiliares para garantir performance e consistência.
+- O uso de estruturas como **árvores B+** para busca eficiente em arquivos.
+- Técnicas de integração entre entidades com arquivos distintos.
+
+### Conclusão:
+
+Todos os requisitos foram implementados com sucesso, com testes cobrindo inclusão, busca, exclusão e visualização dos vínculos entre atores e séries.
+
+---
+
+## ✅ Checklist de Verificação
+
+- As operações de inclusão, busca, alteração e exclusão de atores estão implementadas e funcionando corretamente?  
+  ✔️ **Sim**
+
+- O relacionamento entre séries e atores foi implementado com árvores B+ e funciona corretamente, assegurando a consistência entre as duas entidades?  
+  ✔️ **Sim**
+
+- É possível consultar quais são os atores de uma série?  
+  ✔️ **Sim**
+
+- É possível consultar quais são as séries de um ator?  
+  ✔️ **Sim**
+
+- A remoção de séries remove os seus vínculos de atores?  
+  ✔️ **Sim**
+
+- A inclusão de um ator em uma série se limita aos atores existentes?  
+  ✔️ **Sim**
+
+- A remoção de um ator checa se há alguma série vinculada a ele?  
+  ✔️ **Sim**
+
+- O trabalho está funcionando corretamente?  
+  ✔️ **Sim**
+
+- O trabalho está completo?  
+  ✔️ **Sim**
+
+- O trabalho é original e não a cópia de um trabalho de outro grupo?  
+  ✔️ **Sim**
+
+---
+
+## 📎 Observações Finais
+
+O código está estruturado de forma que novas entidades e relacionamentos possam ser adicionados com facilidade. O uso de árvores B+ provou ser eficaz para a indexação bidirecional, e o padrão de projeto adotado favorece reuso e manutenção.
+
+Para executar, basta compilar as classes e iniciar pelo menu principal. Os arquivos de dados e índices são criados automaticamente na primeira execução.
