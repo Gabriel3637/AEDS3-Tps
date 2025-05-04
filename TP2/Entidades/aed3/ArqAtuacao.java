@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import Model.Atuacao;
 import Model.ParIdId;
-import estruturas.*;
 
 public class ArqAtuacao extends Arquivo<Atuacao> {
 

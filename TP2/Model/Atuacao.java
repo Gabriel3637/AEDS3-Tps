@@ -6,7 +6,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class Atuacao{
+public class Atuacao implements Registro{
   private int id;
   private int serieId;
   private int atorId;
@@ -29,6 +29,9 @@ public class Atuacao{
     this(-1, pserieId, patorId, ppapel);
   }
   
+  public String getNome(){
+    return "-1";
+  }
   //Métodos GETS
   
   public int getId(){
