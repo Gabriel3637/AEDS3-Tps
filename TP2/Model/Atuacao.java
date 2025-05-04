@@ -6,7 +6,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class Atuacao{
+public class Atuacao implements Registro{
   private int id;
   private int serieId;
   private int atorId;
