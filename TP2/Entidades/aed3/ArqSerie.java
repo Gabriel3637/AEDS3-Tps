@@ -31,6 +31,10 @@ public class ArqSerie extends Arquivo<Serie> {
         indiceNome.create(new ParNomeId(s.getNome(), id));
         return id;
     }
+    
+    public Serie readId(int pid) throws Exception{
+      return read(pid);
+    }
 
     public Serie[] readNome(String nome) throws Exception {
         if(nome.length()==0)

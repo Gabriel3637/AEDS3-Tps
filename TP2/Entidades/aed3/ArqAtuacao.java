@@ -70,7 +70,6 @@ public class ArqAtuacao extends Arquivo<Atuacao> {
             int i=0;
             for(ParIdId pti: ptis)
                 for(ParIdId pti2: ptis2){
-                    System.out.println(pti.getEpId() + " " + pti2.getEpId());
                     if(pti.getEpId() == pti2.getEpId()){
                         atuacaoarraylist.add(read(pti2.getEpId()));
                     }
