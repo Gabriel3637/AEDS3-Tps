@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 import Model.Ator;
-
+import Model.Atuacao;
 import Entidades.aed3.ArqAtor;
 
 
@@ -162,6 +162,12 @@ public class MenuAtores{
                         System.out.println("Escolha um número entre 1 e "+(n-1));
                 }while(o<=0 || o>n-1);
                 mostrarAtor(ator[o-1]);  // Exibe os detalhes do ator encontrada
+                System.out.println("Deseja exibir os papeis do autor? (S/N)");
+                char resp = console.nextLine().charAt(0);
+                if(resp=='S' || resp=='s') {
+                    buscarAtuacao(ator[o-1]);
+                }
+
             } else {
                 System.out.println("Nenhum ator encontrado.");
             }
@@ -170,7 +176,54 @@ public class MenuAtores{
             e.printStackTrace();
         }
     }
+
+    public void buscarAtuacao(Ator a1) {
+        System.out.println("Busca de atuação");
+        System.out.print("Papel: ");
+        String nome = a1.getNome();  // Lê o papel digitado pelo usuário
+
+        if(nome.isEmpty())
+            return; 
+
+        try {
+            int o = -1;
+            Atuacao[] atuacao = arquivoAtuacao.readAtor(a1.getId());  // Chama o método de leitura da classe Arquivo
+            if (atuacao.length>0) {
+                int n=1;
+                for(Atuacao s : atuacao) {
+                    System.out.println((n++)+": "+s.getPapel());
+                }
+                System.out.print("Escolha a atuacao: ");
+                
+                do { 
+                    try {
+                        o = Integer.valueOf(console.nextLine());
+                    } catch(NumberFormatException e) {
+                        o = -1;
+                    }
+                    if(o<=0 || o>n-1)
+                        System.out.println("Escolha um número entre 1 e "+(n-1));
+                }while(o<=0 || o>n-1);
+                mostrarAtuacao(atuacao[o-1]);  // Exibe os detalhes da atuação encontrada
+            } else {
+                System.out.println("Nenhuma atuação encontrada.");
+            }
+        } catch(Exception e) {
+            System.out.println("Erro do sistema. Não foi possível buscar as series!");
+            e.printStackTrace();
+        }
+    }
     
+    public void mostrarAtuacao(Atuacao atuacao) {
+        if (atuacao != null) {
+            System.out.println("\nDetalhes da atuação:");
+            System.out.println("----------------------");
+            System.out.printf("Ator..: %s%n", atuacao.getAtorId());
+            System.out.printf("Papel: %s%n", atuacao.getPapel());
+            System.out.println("----------------------");
+        }
+      }
+      
     public void alterarAtor() {
         System.out.println("\nAlteração de ator");
         boolean dadosCorretos;
