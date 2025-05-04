@@ -308,7 +308,7 @@ public class MenuAtores{
                   
                   if(strsexo.length()==0)
                     dadosCorretos = true;
-                  if(nome.length()>0){
+                  if(strsexo.length()>0){
                     
                     novosexo = strsexo.charAt(0);
                     dadosCorretos = true;
