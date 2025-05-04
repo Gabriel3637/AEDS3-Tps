@@ -59,12 +59,12 @@ public class MenuAtuacao{
     do {
         System.out.println("\n\nPUCFlix 1.0");
         System.out.println("-------");
-        System.out.println("> Início > Series");
+        System.out.println("> Início > Series > Atuação");
         System.out.println("1) Incluir");
         System.out.println("2) Buscar");
         System.out.println("3) Alterar");
         System.out.println("4) Excluir");
-        System.out.println("4) Listar atuações");
+        System.out.println("5) Listar atuações");
         System.out.println("0) Retomar ao menu anterior");
 
         System.out.print("\nOpção: ");
@@ -147,12 +147,12 @@ public class MenuAtuacao{
             dadosCorretos = false;
             do {
                 System.out.print("\nPapel (vazio para cancelar): ");
-                nome = console.nextLine();
-                if(nome.length()==0)
+                papel = console.nextLine();
+                if(papel.length()==0)
                     return;
-                if(nome.length()>0)
+                if(papel.length()>0)
                     dadosCorretos = true;
-            } while(dadosCorretos);
+            } while(!dadosCorretos);
             
 
             System.out.print("\nConfirma a inclusão da atuação? (S/N) ");
@@ -176,8 +176,8 @@ public class MenuAtuacao{
   
   public void buscarAtuacao() {
         System.out.println("Busca de atuação");
-        System.out.print("Papel: ");
-        String nome = console.nextLine();  // Lê o papel digitado pelo usuário
+        System.out.print("Nome do ator: ");
+        String nome = console.nextLine();  // Lê o nome digitado pelo usuário
 
         if(nome.isEmpty())
             return; 
@@ -385,7 +385,7 @@ public class MenuAtuacao{
     public void excluirAtuacao() {
         System.out.println("\nExclusão de atuação");
         
-        System.out.print("Digite o nome da atuação: ");
+        System.out.print("Digite o nome do ator: ");
         String nome = console.nextLine();  // Lê o nome digitado pelo usuário
         System.out.println("");
         if(nome.isEmpty())
