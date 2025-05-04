@@ -42,7 +42,7 @@ public class ArqAtor extends Arquivo<Ator> {
             return null;
     }
     
-    public Ator readId(int pid){
+    public Ator readId(int pid) throws Exception{
       return read(pid);
     }
 
