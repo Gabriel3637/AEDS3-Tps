@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-import Model.Serie;
 import Model.Ator;
 import Model.Atuacao;
 
@@ -228,7 +227,7 @@ public class MenuAtuacao{
                 System.out.println("Nenhuma atuação encontrada.");
             }
         } catch(Exception e) {
-            System.out.println("Erro do sistema. Não foi possível buscar as series!");
+            System.out.println("Erro do sistema. Não foi possível buscar as atuações!");
             e.printStackTrace();
         }
         
@@ -363,19 +362,19 @@ public class MenuAtuacao{
                     // Salva as alterações no arquivo
                     boolean alterado = arquivoAtuacao.update(atuacaoSelecionada);
                     if (alterado) {
-                        System.out.println("Serie alterado com sucesso.");
+                        System.out.println("Atuação alterada com sucesso.");
                     } else {
-                        System.out.println("Erro ao alterar o serie.");
+                        System.out.println("Erro ao alterar a atuação.");
                     }
                 } else {
                     System.out.println("Alterações canceladas.");
                 }
                  console.nextLine(); // Limpar o buffer 
             } else {
-                System.out.println("Serie não encontrado.");
+                System.out.println("Atuação não encontrado.");
             }
         } catch (Exception e) {
-            System.out.println("Erro do sistema. Não foi possível alterar o serie!");
+            System.out.println("Erro do sistema. Não foi possível alterar o atuação!");
             e.printStackTrace();
         }
         
