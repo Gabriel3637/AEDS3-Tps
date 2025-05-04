@@ -48,9 +48,40 @@ Classe modelo que representa uma entidade armazenada
 
 ### 'View'
 
-#### 'MenuAtores', 'MenuAtuacao', 'MenuEpisodio' e 'MenuSeries'
-
 Classes responsáveis pela interação com o usuário
+
+#### 'MenuAtores'
+
+- Métodos principais:
+  - incluirAtor() – Recebe os dados e chama o metodo para criar o ator na memória secundária
+  - buscarAtor() – Busca o ator na memória secundária pelo seu nome
+  - alterarAtor() – Seleciona o ator pelo nome e recebe os dados para altera-lo na memória secundária
+  - excluirAtor() – Seleciona o ator pelo nome e chama o metodo para excluir da memória secundária
+  - listaratuacoes() – Seleciona o ator pelo nome e chama o metodo para exibir todas as suas atuações
+ 
+#### 'MenuEpisodio'
+- Métodos principais:
+  - incluirEpisodio() – Recebe os dados e chama o metodo para criar o episódio na memória secundária
+  - buscarEpisodio() – Busca o episódio na memória secundária pelo seu nome
+  - alterarEpisodio() – Seleciona o episódio pelo nome e recebe os dados para altera-lo na memória secundária
+  - excluirEpisodio() – Seleciona o episódio pelo nome e chama o metodo para excluir da memória secundária
+
+#### 'MenuSeries' 
+- Métodos principais:
+  - incluirSerie() – Recebe os dados e chama o metodo para criar a série na memória secundária
+  - buscarSerie() – Busca a série na memória secundária pelo seu nome
+  - alterarSerie() – Seleciona a série pelo nome e recebe os dados para altera-lo na memória secundária
+  - excluirSerie() – Seleciona a série pelo nome e chama o metodo para excluir da memória secundária
+  - EpisodioSerie() – Exibe o MenuEpisodio referente uma serie previamente selecionada pelo nome
+  - AtuacaoSerie() – Exibe o MenuAtuacao referente uma serie previamente selecionada pelo nome
+
+#### 'MenuAtuacao'
+- Métodos principais:
+  - incluirAtuacao() – Recebe os dados e chama o metodo para criar a atuação na memória secundária
+  - buscarAtuacao() – Busca a atuação na memória secundária pelo seu nome
+  - alterarAtuacao() – Seleciona a atuação pelo nome e recebe os dados para altera-lo na memória secundária
+  - excluirAtuacao() – Seleciona a atuação pelo nome e chama o metodo para excluir da memória secundária
+  - listarAtuacao() -  Chama o metodo para exibir todas as atuações da série selecionda previamente
 
 ### 'Arquivos'
 
