@@ -40,10 +40,13 @@ Classe que representa o relacionamento entre um ator e uma série.
 
 - Atributos: `id`, `serieId`, `atorId`, `papel`
 
-#### 'Ator','Episodio','Serie'
+#### 'Ator','Episodio'
 
 Classes modelo que representam uma entidade armazenada
 
+#### 'Serie'
+
+Classe modelo que representa uma entidade armazenada
 
 ### 'View'
 
@@ -68,6 +71,10 @@ Classe que gerencia o CRUD das atuações, mantendo dois índices B+:
   - `existsForAtor(int)` – verifica se um ator tem vínculos
 
 #### 'ArqSerie'
+
+#### 'ArqAtor'
+
+#### 'ArqEpisodio'
 
 
 
