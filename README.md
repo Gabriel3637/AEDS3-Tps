@@ -32,13 +32,11 @@ A modelagem foi orientada a objetos e o projeto foi modularizado para facilitar 
 
 #### 'ParIdId', ParIDEndereço, ParNomeId
 
-Índices para armazenar pares de dados utilizados na árvore B+.
+Índices para armazenar pares de dados na árvore B+.
 
 #### 'Atuacao' 
 
 Classe que representa o relacionamento entre um ator e uma série.
-
-- Atributos: `id`, `serieId`, `atorId`, `papel`
 
 #### 'Ator','Episodio'
 
