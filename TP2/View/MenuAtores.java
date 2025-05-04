@@ -7,16 +7,19 @@ import java.util.Scanner;
 import Model.Ator;
 import Model.Atuacao;
 import Entidades.aed3.ArqAtor;
+import Entidades.aed3.ArqAtuacao;
 
 
 public class MenuAtores{
 
     
   ArqAtor arquivoAtor;
+  ArqAtuacao arquivoAtuacao;
   private static Scanner console = new Scanner(System.in);
 
   public MenuAtores() throws Exception {
       arquivoAtor = new ArqAtor();
+      arquivoAtuacao = new ArqAtuacao();
   }
     
   public void mostrarAtor(Ator ator) {
@@ -223,7 +226,7 @@ public class MenuAtores{
             System.out.println("----------------------");
         }
       }
-      
+
     public void alterarAtor() {
         System.out.println("\nAlteração de ator");
         boolean dadosCorretos;
