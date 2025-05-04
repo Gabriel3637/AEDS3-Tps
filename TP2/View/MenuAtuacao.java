@@ -5,8 +5,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 import Model.Serie;
+import Model.Ator;
+import Model.Atuacao;
 
 import Entidades.aed3.ArqAtuacao;
+import Entidades.aed3.ArqAtor;
 
 
 public class MenuAtuacao{
@@ -88,10 +91,8 @@ public class MenuAtuacao{
     public void incluirAtuacao() {
       System.out.println("Inclusão de atuação");
       String papel = "";
-      int serieId
       boolean dadosCorretos = false;
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-      Ator atorSelecionado;
       
       System.out.print("Digite o nome do ator: ");
       String nome = console.nextLine();  // Lê o nome digitado pelo usuário
@@ -129,32 +130,33 @@ public class MenuAtuacao{
           } else {
               System.out.println("Ator não encontrado.");
           }
-      }catch{
+      
+      
+            dadosCorretos = false;
+            do {
+                System.out.print("\nPapel (vazio para cancelar): ");
+                nome = console.nextLine();
+                if(nome.length()==0)
+                    return;
+                if(nome.length()>0)
+                    dadosCorretos = true;
+            } while(dadosCorretos);
+            
+
+            System.out.print("\nConfirma a inclusão da atuação? (S/N) ");
+            char resp = console.nextLine().charAt(0);
+            if(resp=='S' || resp=='s') {
+                try {
+                    Atuacao c = new Atuacao(this.serieId, atorSelecionado.getId(), papel);
+                    arquivoAtuacao.create(c);
+                    System.out.println("Atuação incluída com sucesso.");
+                } catch(Exception e) {
+                    System.out.println("Erro do sistema. Não foi possível incluir a atuação!");
+                }
+            }
+      } catch(Exception e) {
         System.out.println("Erro do sistema. Não foi possível encontrar o ator!");
             e.printStackTrace();
-      }
-      
-      dadosCorretos = false;
-      do {
-          System.out.print("\nPapel (vazio para cancelar): ");
-          nome = console.nextLine();
-          if(nome.length()==0)
-              return;
-          if(nome.length()>0)
-              dadosCorretos = true;
-      } while(dadosCorretos);
-      
-
-      System.out.print("\nConfirma a inclusão da atuação? (S/N) ");
-      char resp = console.nextLine().charAt(0);
-      if(resp=='S' || resp=='s') {
-          try {
-              Atuacao c = new Atuacao(this.serieId, atorSelecionado.getId(), papel);
-              arquivoAtuacao.create(c);
-              System.out.println("Atuação incluída com sucesso.");
-          } catch(Exception e) {
-              System.out.println("Erro do sistema. Não foi possível incluir a atuação!");
-          }
       }
   }
   
@@ -165,7 +167,7 @@ public class MenuAtuacao{
         System.out.print("Papel: ");
         String nome = console.nextLine();  // Lê o papel digitado pelo usuário
 
-        if(papel.isEmpty())
+        if(nome.isEmpty())
             return; 
 
         try {
@@ -291,14 +293,14 @@ public class MenuAtuacao{
             dadosCorretos = false;
             do{
               System.out.print("Novo ator (deixe em branco para manter o anterior): ");
-              String nomeNovoAtor = console.console.nextLine();
+              String nomeNovoAtor = console.nextLine();
               
-              if(!nomeNovo.isEmpty()){
-                int o = -1;
-                Ator[] ator = arquivoAtor.readNome(nomeNovoAtor);  // Chama o método de leitura da classe Arquivo
-                if (ator.length>0) {
+              if(!nomeNovoAtor.isEmpty()){
+                o = -1;
+                Ator[] novoator = arquivoAtor.readNome(nomeNovoAtor);  // Chama o método de leitura da classe Arquivo
+                if (novoator.length>0) {
                     int n=1;
-                    for(Ator s : ator) {
+                    for(Ator s : novoator) {
                         System.out.println((n++)+": "+s.getNome());
                     }
                     System.out.print("Escolha o ator: ");
@@ -312,15 +314,15 @@ public class MenuAtuacao{
                         if(o<=0 || o>n-1)
                             System.out.println("Escolha um número entre 1 e "+(n-1));
                     }while(o<=0 || o>n-1);
-                    mostrarAtor(ator[o-1]);  // Exibe os detalhes da atuação encontrada
+                    mostrarAtor(novoator[o-1]);  // Exibe os detalhes da atuação encontrada
                 } else {
                     System.out.println("Nenhum ator encontrado.");
                 }
-                atorSelecionado = ator[o-1];
+                Ator novoatorSelecionado = novoator[o-1];
                 
-                if(atorSelecionado != null){
+                if(novoatorSelecionado != null){
                   dadosCorretos = true;
-                  atuacaoSelecionada.setAtorId(atorSelecionado.getId())
+                  atuacaoSelecionada.setAtorId(novoatorSelecionado.getId());
                 }
               }else {
                 dadosCorretos = true;
@@ -339,7 +341,6 @@ public class MenuAtuacao{
                 } else
                     dadosCorretos = true;
             } while(!dadosCorretos);
-          }
 
                
                 
@@ -370,20 +371,45 @@ public class MenuAtuacao{
     }
     
     public void excluirAtuacao() {
-        System.out.println("\nExclusão de serie");
+        System.out.println("\nExclusão de atuação");
         
         System.out.print("Digite o nome da atuação: ");
         String nome = console.nextLine();  // Lê o nome digitado pelo usuário
         System.out.println("");
         if(nome.isEmpty())
-            return; 
-        int o = -1;
-        try {
-            Serie[] serie = arquivoAtuacao.readNome(nome);  // Chama o método de leitura da classe Arquivo
-            if (serie.length>0) {
+            return;
+        try{
+          int o = -1;
+          Ator[] ator = arquivoAtor.readNome(nome);  // Chama o método de leitura da classe Arquivo
+          if (ator.length>0) {
+              int n=1;
+              for(Ator s : ator) {
+                  System.out.println((n++)+": "+s.getNome());
+              }
+              System.out.print("Escolha o ator: ");
+              
+              do { 
+                  try {
+                      o = Integer.valueOf(console.nextLine());
+                  } catch(NumberFormatException e) {
+                      o = -1;
+                  }
+                  if(o<=0 || o>n-1)
+                      System.out.println("Escolha um número entre 1 e "+(n-1));
+              }while(o<=0 || o>n-1);
+              mostrarAtor(ator[o-1]);  // Exibe os detalhes da atuação encontrada
+          } else {
+              System.out.println("Nenhum ator encontrado.");
+          }
+        
+          Ator atorSelecionado = ator[o-1];
+          
+            o = -1;
+            Atuacao[] atuacao = arquivoAtuacao.readAtor(atorSelecionado.getId());  // Chama o método de leitura da classe Arquivo
+            if (atuacao.length>0) {
                 int n=1;
-                for(Serie s : serie) {
-                    System.out.println((n++)+": "+s.getNome());
+                for(Atuacao s : atuacao) {
+                    System.out.println((n++)+": "+s.getPapel());
                 }
                 System.out.print("Escolha a atuação: ");
                 
@@ -400,74 +426,35 @@ public class MenuAtuacao{
                 System.out.println("Nenhuma atuação encontrado.");
             }
 
-            // Tenta selecionar serie do array
-            Serie serieSelecionada = serie[o-1];
+            // Tenta selecionar atuacao do array
+            Atuacao serieSelecionada = atuacao[o-1];
             if (serieSelecionada != null) {
-                System.out.println("Serie encontrada:");
-                mostrarAtuacao(serieSelecionada);  // Exibe os dados da serie para confirmação
+                System.out.println("Atuação encontrada:");
+                mostrarAtuacao(serieSelecionada);  // Exibe os dados da atuação para confirmação
 
-                System.out.print("\nConfirma a exclusão do serie? (S/N) ");
+                System.out.print("\nConfirma a exclusão do atuação? (S/N) ");
                 char resp = console.next().charAt(0);  // Lê a resposta do usuário
 
                 if (resp == 'S' || resp == 's') {
                     boolean excluido = arquivoAtuacao.delete(serieSelecionada.getId());  // Chama o método de exclusão no arquivo
                     if (excluido) {
-                        System.out.println("Serie excluído com sucesso.");
+                        System.out.println("Atuação excluída com sucesso.");
                     } else {
-                        System.out.println("Erro ao excluir a serie.");
+                        System.out.println("Erro ao excluir a atuação.");
                     }
                 } else {
                     System.out.println("Exclusão cancelada.");
                 }
             } else {
-                System.out.println("Serie não encontrada.");
+                System.out.println("Atuação não encontrada.");
             }
         } catch (Exception e) {
-            System.out.println("Erro do sistema. Não foi possível excluir a serie!");
+            System.out.println("Erro do sistema. Não foi possível excluir a atuação!");
             e.printStackTrace();
         }
     }
     
-    public void EpisodiosSerie(){
-      System.out.print("Digite o nome da atuação: ");
-      String nome = console.nextLine();  // Lê o nome digitado pelo usuário
-      System.out.println("");
-        if(nome.isEmpty())
-            return; 
-        int o = -1;
-        try {
-            Serie[] serie = arquivoAtuacao.readNome(nome);  // Chama o método de leitura da classe Arquivo
-            if (serie.length>0) {
-                int n=1;
-                for(Serie s : serie) {
-                    System.out.println((n++)+": "+s.getNome());
-                }
-                System.out.print("Escolha a atuação: ");
-                
-                do { 
-                    try {
-                        o = Integer.valueOf(console.nextLine());
-                    } catch(NumberFormatException e) {
-                        o = -1;
-                    }
-                    if(o<=0 || o>n-1)
-                        System.out.println("Escolha um número entre 1 e "+(n-1));
-                }while(o<=0 || o>n-1);
-            } else {
-                System.out.println("Nenhuma atuação encontrado.");
-            }
-      
-            // Tenta ler a atuação com o ID fornecido
-            Serie serieSelecionada = serie[o-1];
-            
-            (new MenuEpisodio(serieSelecionada.getId())).menu();
-            
-        } catch (Exception e) {
-            System.out.println("Erro do sistema. Não foi possível encontrar a serie!");
-            e.printStackTrace();
-        }
-            
-    }
+    
     
     
     

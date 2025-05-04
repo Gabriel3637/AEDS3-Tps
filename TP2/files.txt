@@ -4,6 +4,7 @@
 ./Entidades/aed3/HashExtensivel.java
 ./Entidades/aed3/Arquivo.java
 ./Entidades/aed3/ArqAtor.java
+./Entidades/aed3/ArqAtuacao.java
 ./Entidades/aed3/RegistroArvoreBMais.java
 ./Entidades/aed3/ArvoreBMais.java
 ./Entidades/aed3/ParIDEndereco.java
@@ -13,9 +14,9 @@
 ./Model/Ator.java
 ./Model/ParIdId.java
 ./Model/Atuacao.java
-./Model/ParIDNome.java
 ./Model/ParNomeId.java
 ./Model/Serie.java
 ./View/MenuEpisodio.java
+./View/MenuAtuacao.java
 ./View/MenuAtores.java
 ./View/MenuSeries.java
