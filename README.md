@@ -60,27 +60,35 @@ Classes responsáveis pela interação com o usuário
 
 Classe que gerencia o CRUD das atuações, mantendo dois índices B+:
 
-- `indiceSerieAtuacao.db` → busca por `idSerie`
-- `indiceAtorAtuacao.db` → busca por `idAtor`
 - Métodos principais:
-  - `create(Atuacao)` – cria e indexa
-  - `readBySerieId(int)` – retorna as atuações de uma série
-  - `readByAtorId(int)` – retorna as atuações de um ator
-  - `delete(int)` – remove atuação e atualiza índices
-  - `deleteBySerie(int)` – apaga vínculos de uma série
-  - `existsForAtor(int)` – verifica se um ator tem vínculos
+  - 'readAtorSerie(int atorId, int serieId)' – retorna um array com as relações entre um ator e uma série
+  - 'readSerie(int serieId)' – retorna todas as atuações de uma série
+  - 'readAtor(int atorId)' – retorna todas as atuações de um ator
 
 #### 'ArqSerie'
 
+Classe que gerencia o índice de série e o armazenamento das séries
+
+Métodos principais:
+  - 'readNome(String nome)' - recebe um nome e retorna um array com as séries por meio da árvore B+
+  - 'create(Serie s)' - cria uma série, atualiza o indice e salva na árvore B+
+
 #### 'ArqAtor'
+
+Classe que gerencia os índices de ator e o armazenamento dos atores.
+
+Métodos principais:
+  - 'readNome(String nome)' - recebe um nome e retorna um array com os atores  por meio da árvore B+
+  - 'create(Ator s)' - cria um ator, atualiza o indice e salva na árvore B+
+
 
 #### 'ArqEpisodio'
 
 Classe que gerencia os índices do episódio e o armazenamento dos episódios.
 
 Métodos principais:
-  - 'readNomeSerieId(String nome, int serieId)' - recebe um nome e uma série e retorna um array com os episódios
-  - 'create(Episodio s)' - cria um episódio e salva no indice
+  - 'readNomeSerieId(String nome, int serieId)' - recebe um nome e uma série e retorna um array com os episódios por meio da árvore B+
+  - 'create(Episodio s)' - cria um episódio, atualiza o indice e salva na árvore B+
 
 ---
 
