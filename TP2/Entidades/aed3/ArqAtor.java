@@ -41,6 +41,10 @@ public class ArqAtor extends Arquivo<Ator> {
         else 
             return null;
     }
+    
+    public Ator readId(int pid){
+      return read(pid);
+    }
 
     @Override
     public boolean delete(int id) throws Exception {

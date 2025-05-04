@@ -13,10 +13,12 @@ public class MenuAtuacao{
 
   public int serieId;
   ArqAtuacao arquivoAtuacao;
+  ArqAtor arquivoAtor;
   private static Scanner console = new Scanner(System.in);
 
-  public MenuAtuacao() throws Exception {
+  public MenuAtuacao(int pserieId) throws Exception {
       arquivoAtuacao = new ArqAtuacao();
+      this.serieId = pserieId;
   }
     
   public void mostrarAtuacao(Atuacao atuacao) {
@@ -25,6 +27,17 @@ public class MenuAtuacao{
         System.out.println("----------------------");
         System.out.printf("Ator..: %s%n", atuacao.getAtorId());
         System.out.printf("Papel: %s%n", atuacao.getPapel());
+        System.out.println("----------------------");
+    }
+  }
+  
+  public void mostrarAtor(Ator ator) {
+    if (ator != null) {
+        System.out.println("\nDetalhes da Ator:");
+        System.out.println("----------------------");
+        System.out.printf("Nome......: %s%n", ator.getNome());
+        System.out.printf("Idade.....: %s%n", ator.getIdade());
+        System.out.printf("Sexo...: %s%n", ator.getSexo());
         System.out.println("----------------------");
     }
   }
@@ -78,55 +91,67 @@ public class MenuAtuacao{
       int serieId
       boolean dadosCorretos = false;
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+      Ator atorSelecionado;
+      
+      System.out.print("Digite o nome do ator: ");
+      String nome = console.nextLine();  // Lê o nome digitado pelo usuário
+      System.out.println("");
+      if(nome.isEmpty())
+          return; 
+      int o = -1;
+      try {
+          Ator[] ator = arquivoAtor.readNome(nome);  // Chama o método de leitura da classe Arquivo
+          if (ator.length>0) {
+              int n=1;
+              for(Ator s : ator) {
+                  System.out.println((n++)+": "+s.getNome());
+              }
+              System.out.print("Escolha o ator: ");
+              
+              do { 
+                  try {
+                      o = Integer.valueOf(console.nextLine());
+                  } catch(NumberFormatException e) {
+                      o = -1;
+                  }
+                  if(o<=0 || o>n-1)
+                      System.out.println("Escolha um número entre 1 e "+(n-1));
+              }while(o<=0 || o>n-1);
+          } else {
+              System.out.println("Nenhum ator encontrado.");
+          }
 
+          // Tenta selecionar ator do array
+          Ator atorSelecionado = ator[o-1];
+          if (atorSelecionado != null) {
+              System.out.println("Ator encontrado:");
+              mostrarAtor(atorSelecionado);  // Exibe os dados do ator para confirmação
+          } else {
+              System.out.println("Ator não encontrado.");
+          }
+      }catch{
+        System.out.println("Erro do sistema. Não foi possível encontrar o ator!");
+            e.printStackTrace();
+      }
+      
+      dadosCorretos = false;
       do {
-          System.out.print("\nNome (min. de 4 letras ou vazio para cancelar): ");
+          System.out.print("\nPapel (vazio para cancelar): ");
           nome = console.nextLine();
           if(nome.length()==0)
               return;
-          if(nome.length()<4)
-              System.err.println("O nome da atuação deve ter no mínimo 4 caracteres.");
-      } while(nome.length()<4);
-      
-      do {
-          System.out.print("Data de lancamento (DD/MM/AAAA): ");
-          String dataStr = console.nextLine();
-          dadosCorretos = false;
-          try {
-              lancamento = LocalDate.parse(dataStr, formatter);
+          if(nome.length()>0)
               dadosCorretos = true;
-          } catch (Exception e) {
-              System.err.println("Data inválida! Use o formato DD/MM/AAAA.");
-          }
-      } while(!dadosCorretos);
-
-      do {
-          System.out.print("Sinopse (min. de 20 letras ou vazio para cancelar): ");
-          sinopse = console.nextLine();
-          if(sinopse.length()== 0)
-            return;
-          if(sinopse.length()<=20)
-              System.err.println("A sinopse da atuação deve ter no mínimo 20 caracteres.");
-      } while(sinopse.length()<=20);
-      
-      do {
-          System.out.print("\nPlataforma de streaming (min. de 2 letras ou vazio para cancelar): ");
-          streaming = console.nextLine();
-          if(nome.length()==0)
-              return;
-          if(nome.length()<2)
-              System.err.println("O nome da plataforma de streaming deve ter no mínimo 2 caracteres.");
-      } while(nome.length()<2);
-
+      } while(dadosCorretos);
       
 
-      System.out.print("\nConfirma a inclusão da serie? (S/N) ");
+      System.out.print("\nConfirma a inclusão da atuação? (S/N) ");
       char resp = console.nextLine().charAt(0);
       if(resp=='S' || resp=='s') {
           try {
-              Serie c = new Serie(nome, lancamento, sinopse, streaming);
+              Atuacao c = new Atuacao(this.serieId, atorSelecionado.getId(), papel);
               arquivoAtuacao.create(c);
-              System.out.println("Serie incluída com sucesso.");
+              System.out.println("Atuação incluída com sucesso.");
           } catch(Exception e) {
               System.out.println("Erro do sistema. Não foi possível incluir a atuação!");
           }
@@ -137,21 +162,22 @@ public class MenuAtuacao{
   
   public void buscarAtuacao() {
         System.out.println("Busca de atuação");
-        System.out.print("Nome: ");
-        String nome = console.nextLine();  // Lê o nome digitado pelo usuário
+        System.out.print("Papel: ");
+        String nome = console.nextLine();  // Lê o papel digitado pelo usuário
 
-        if(nome.isEmpty())
+        if(papel.isEmpty())
             return; 
 
         try {
-            Serie[] serie = arquivoAtuacao.readNome(nome);  // Chama o método de leitura da classe Arquivo
-            if (serie.length>0) {
+            int o = -1;
+            Ator[] ator = arquivoAtor.readNome(nome);  // Chama o método de leitura da classe Arquivo
+            if (ator.length>0) {
                 int n=1;
-                for(Serie s : serie) {
+                for(Ator s : ator) {
                     System.out.println((n++)+": "+s.getNome());
                 }
-                System.out.print("Escolha a atuação: ");
-                int o;
+                System.out.print("Escolha o ator: ");
+                
                 do { 
                     try {
                         o = Integer.valueOf(console.nextLine());
@@ -161,14 +187,39 @@ public class MenuAtuacao{
                     if(o<=0 || o>n-1)
                         System.out.println("Escolha um número entre 1 e "+(n-1));
                 }while(o<=0 || o>n-1);
-                mostrarAtuacao(serie[o-1]);  // Exibe os detalhes da atuação encontrada
+                mostrarAtor(ator[o-1]);  // Exibe os detalhes da atuação encontrada
             } else {
-                System.out.println("Nenhuma atuação encontrado.");
+                System.out.println("Nenhum ator encontrado.");
+            }
+            
+            o = -1;
+            Atuacao[] atuacao = arquivoAtuacao.readAtor(ator[o-1].getId());  // Chama o método de leitura da classe Arquivo
+            if (atuacao.length>0) {
+                int n=1;
+                for(Atuacao s : atuacao) {
+                    System.out.println((n++)+": "+s.getPapel());
+                }
+                System.out.print("Escolha o atuacao: ");
+                
+                do { 
+                    try {
+                        o = Integer.valueOf(console.nextLine());
+                    } catch(NumberFormatException e) {
+                        o = -1;
+                    }
+                    if(o<=0 || o>n-1)
+                        System.out.println("Escolha um número entre 1 e "+(n-1));
+                }while(o<=0 || o>n-1);
+                mostrarAtuacao(atuacao[o-1]);  // Exibe os detalhes da atuação encontrada
+            } else {
+                System.out.println("Nenhuma atuação encontrada.");
             }
         } catch(Exception e) {
             System.out.println("Erro do sistema. Não foi possível buscar as series!");
             e.printStackTrace();
         }
+        
+        
     }
     
     public void alterarAtuacao() {
@@ -177,20 +228,21 @@ public class MenuAtuacao{
 
         dadosCorretos = false;
         
-        System.out.print("Digite o nome da atuação: ");
+        System.out.print("Digite o nome do ator: ");
         String nome = console.nextLine();  // Lê o nome digitado pelo usuário
         System.out.println("");
         if(nome.isEmpty())
             return; 
-        int o = -1;
+            
         try {
-            Serie[] serie = arquivoAtuacao.readNome(nome);  // Chama o método de leitura da classe Arquivo
-            if (serie.length>0) {
+            int o = -1;
+            Ator[] ator = arquivoAtor.readNome(nome);  // Chama o método de leitura da classe Arquivo
+            if (ator.length>0) {
                 int n=1;
-                for(Serie s : serie) {
+                for(Ator s : ator) {
                     System.out.println((n++)+": "+s.getNome());
                 }
-                System.out.print("Escolha a atuação: ");
+                System.out.print("Escolha o ator: ");
                 
                 do { 
                     try {
@@ -201,79 +253,95 @@ public class MenuAtuacao{
                     if(o<=0 || o>n-1)
                         System.out.println("Escolha um número entre 1 e "+(n-1));
                 }while(o<=0 || o>n-1);
+                mostrarAtor(ator[o-1]);  // Exibe os detalhes da atuação encontrada
             } else {
-                System.out.println("Nenhuma atuação encontrado.");
+                System.out.println("Nenhum ator encontrado.");
             }
-      
-            // Tenta ler a atuação com o ID fornecido
-            Serie serieSelecionada = serie[o-1];
-            if (serieSelecionada != null) {
-                mostrarAtuacao(serieSelecionada);  // Exibe os dados da serie para confirmação
-
-                // Alteração de nome
-                String novoNome;
-                dadosCorretos = false;
-                do {
-                    System.out.print("Novo nome (deixe em branco para manter o anterior): ");
-                    novoNome = console.nextLine();
-                    if(!novoNome.isEmpty()) {
-                        if(novoNome.length()>=4) {
-                            serieSelecionada.setNome(novoNome);  // Atualiza o nome se fornecido
-                            dadosCorretos = true;
-                        } else
-                            System.err.println("O nome da serie deve ter no mínimo 4 caracteres.");
-                    } else
-                        dadosCorretos = true;
-                } while(!dadosCorretos);
-
-                // Alteração de data de lançamento
-                String novaData;
-                dadosCorretos = false;
-                do {
-                    System.out.print("Nova data de lançamento (DD/MM/AAAA) (deixe em branco para manter a anterior): ");
-                    novaData = console.nextLine();
-                    if (!novaData.isEmpty()) {
-                        try {
-                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                            serieSelecionada.setLancamento(LocalDate.parse(novaData, formatter));  // Atualiza a data de lançamento se fornecida
-                        } catch (Exception e) {
-                            System.err.println("Data inválida. Valor mantido.");
-                        }
-                    } else
-                        dadosCorretos = true;
-                } while(!dadosCorretos);
-
-                // Alteração de sinopse
-                String novaSinopse;
-                dadosCorretos = false;
-                do {
-                    System.out.print("Nova sinopse (deixe em branco para manter o anterior): ");
-                    novaSinopse = console.nextLine();
-                    if(!novaSinopse.isEmpty()) {
-                        if(novaSinopse.length()>=20) {
-                            serieSelecionada.setSinopse(novaSinopse);  // Atualiza a sinopse se fornecido
-                            dadosCorretos = true;
-                        } else
-                            System.err.println("A sinopse da atuação deve ter no mínimo 20 caracteres.");
-                    } else
-                        dadosCorretos = true;
-                } while(!dadosCorretos);
+            
+            o = -1;
+            Atuacao[] atuacao = arquivoAtuacao.readAtor(ator[o-1].getId());  // Chama o método de leitura da classe Arquivo
+            if (atuacao.length>0) {
+                int n=1;
+                for(Atuacao s : atuacao) {
+                    System.out.println((n++)+": "+s.getPapel());
+                }
+                System.out.print("Escolha o atuacao: ");
                 
-                // Alteração de streaming
-                String novaStreaming;
-                dadosCorretos = false;
-                do {
-                    System.out.print("Nova plataforma de streaming (deixe em branco para manter o anterior): ");
-                    novaStreaming = console.nextLine();
-                    if(!novaStreaming.isEmpty()) {
-                        if(novaStreaming.length()>=2) {
-                            serieSelecionada.setStreaming(novaStreaming);  // Atualiza o nome da plataforma de streaming se fornecido
-                            dadosCorretos = true;
-                        } else
-                            System.err.println("O nome da plataforma de streaming da atuação deve ter no mínimo 2 caracteres.");
-                    } else
-                        dadosCorretos = true;
-                } while(!dadosCorretos);
+                do { 
+                    try {
+                        o = Integer.valueOf(console.nextLine());
+                    } catch(NumberFormatException e) {
+                        o = -1;
+                    }
+                    if(o<=0 || o>n-1)
+                        System.out.println("Escolha um número entre 1 e "+(n-1));
+                }while(o<=0 || o>n-1);
+                mostrarAtuacao(atuacao[o-1]);  // Exibe os detalhes da atuação encontrada
+            } else {
+                System.out.println("Nenhuma atuação encontrada.");
+            }
+            Atuacao atuacaoSelecionada = atuacao[o-1];
+            
+        
+            
+            
+        if (atuacaoSelecionada != null) {
+
+            // Alteração do ator
+            dadosCorretos = false;
+            do{
+              System.out.print("Novo ator (deixe em branco para manter o anterior): ");
+              String nomeNovoAtor = console.console.nextLine();
+              
+              if(!nomeNovo.isEmpty()){
+                int o = -1;
+                Ator[] ator = arquivoAtor.readNome(nomeNovoAtor);  // Chama o método de leitura da classe Arquivo
+                if (ator.length>0) {
+                    int n=1;
+                    for(Ator s : ator) {
+                        System.out.println((n++)+": "+s.getNome());
+                    }
+                    System.out.print("Escolha o ator: ");
+                    
+                    do { 
+                        try {
+                            o = Integer.valueOf(console.nextLine());
+                        } catch(NumberFormatException e) {
+                            o = -1;
+                        }
+                        if(o<=0 || o>n-1)
+                            System.out.println("Escolha um número entre 1 e "+(n-1));
+                    }while(o<=0 || o>n-1);
+                    mostrarAtor(ator[o-1]);  // Exibe os detalhes da atuação encontrada
+                } else {
+                    System.out.println("Nenhum ator encontrado.");
+                }
+                atorSelecionado = ator[o-1];
+                
+                if(atorSelecionado != null){
+                  dadosCorretos = true;
+                  atuacaoSelecionada.setAtorId(atorSelecionado.getId())
+                }
+              }else {
+                dadosCorretos = true;
+              }
+            } while(!dadosCorretos);
+            
+            
+            String novoPapel;
+            dadosCorretos = false;
+            do {
+                System.out.print("Novo papel (deixe em branco para manter o anterior): ");
+                novoPapel = console.nextLine();
+                if(!novoPapel.isEmpty()) {
+                  atuacaoSelecionada.setPapel(novoPapel);  // Atualiza o nome se fornecido
+                  dadosCorretos = true;
+                } else
+                    dadosCorretos = true;
+            } while(!dadosCorretos);
+          }
+
+               
                 
 
                 // Confirmação da alteração
@@ -281,7 +349,7 @@ public class MenuAtuacao{
                 char resp = console.next().charAt(0);
                 if (resp == 'S' || resp == 's') {
                     // Salva as alterações no arquivo
-                    boolean alterado = arquivoAtuacao.update(serieSelecionada);
+                    boolean alterado = arquivoAtuacao.update(atuacaoSelecionada);
                     if (alterado) {
                         System.out.println("Serie alterado com sucesso.");
                     } else {
