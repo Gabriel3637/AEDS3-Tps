@@ -29,6 +29,9 @@ public class Atuacao implements Registro{
     this(-1, pserieId, patorId, ppapel);
   }
   
+  public String getNome(){
+    return "-1";
+  }
   //Métodos GETS
   
   public int getId(){
