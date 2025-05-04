@@ -190,7 +190,7 @@ public class MenuAtores{
     }
 
     public void buscarAtuacao(Ator a1) {
-        System.out.println("Busca de atuação")
+        System.out.println("Busca de atuação");
         String nome = a1.getNome();  // Lê o papel digitado pelo usuário
 
         if(nome.isEmpty())

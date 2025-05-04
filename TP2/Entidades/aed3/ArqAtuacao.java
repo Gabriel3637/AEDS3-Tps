@@ -116,7 +116,7 @@ public class ArqAtuacao extends Arquivo<Atuacao> {
         return false;
     }
 
-    public boolean deleteBySerie(int serieId) throws Exception {
+    public boolean deleteSerie(int serieId) throws Exception {
         Atuacao[] atuacoes = readSerie(serieId);
         if (atuacoes != null) {
             for (Atuacao a : atuacoes) {
