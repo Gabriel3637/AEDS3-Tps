@@ -446,7 +446,7 @@ public class MenuSeries{
             // Tenta ler a série com o ID fornecido
             Serie atuacaoSelecionada = serie[o-1];
             
-            (new MenuEpisodio(atuacaoSelecionada.getId())).menu();
+            (new MenuAtuacao(atuacaoSelecionada.getId())).menu();
             
         } catch (Exception e) {
             System.out.println("Erro do sistema. Não foi possível encontrar a serie!");
