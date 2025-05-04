@@ -9,12 +9,14 @@ import Entidades.aed3.*;
 
 public class ArqSerie extends Arquivo<Serie> {
     Arquivo<Serie> arquivo;
+    ArqAtuacao arquivoAtuacao;
     ArvoreBMais<ParNomeId> indiceNome;
     ArvoreBMais<ParIdId> indiceEpisodio;
     
     public ArqSerie() throws Exception {
         super("Series", Serie.class.getConstructor());
 
+        this.arquivoAtuacao = new ArqAtuacao();
         indiceNome = new ArvoreBMais<>(
             ParNomeId.class.getConstructor(), 
             5, 
@@ -59,7 +61,7 @@ public class ArqSerie extends Arquivo<Serie> {
           ArrayList<ParIdId> ptis = indiceEpisodio.read(new ParIdId(id, -1));
           if(ptis.size() == 0){
             if(super.delete(id))
-                return indiceNome.delete(new ParNomeId(s.getNome(), id));
+                return indiceNome.delete(new ParNomeId(s.getNome(), id)) && arquivoAtuacao.deleteSerie(id);
           }else{
             System.out.println("Erro! Exclua os episódios antes de excluir a série!");
           }
