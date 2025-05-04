@@ -48,7 +48,7 @@ public class ArqAtuacao extends Arquivo<Atuacao> {
         return atuacoes;
     }
 
-    public Atuacao[] readByAtorId(int atorId) throws Exception {
+    public Atuacao[] readAtor(int atorId) throws Exception {
         ArrayList<ParIdId> lista = indiceAtor.read(new ParIdId(atorId, -1));
         if (lista == null || lista.size() == 0) return null;
 
@@ -107,7 +107,7 @@ public class ArqAtuacao extends Arquivo<Atuacao> {
     }
 
     public boolean existsForAtor(int atorId) throws Exception {
-        Atuacao[] atuacoes = readByAtorId(atorId);
+        Atuacao[] atuacoes = readAtor(atorId);
         return atuacoes != null && atuacoes.length > 0;
     }
 
