@@ -1,6 +1,6 @@
 # AEDS3 - TP2: Relacionamento N:N entre Séries e Atores
 
-## 📌 Descrição Geral
+## Descrição Geral
 
 Neste trabalho prático, evoluímos o sistema desenvolvido no TP1 para lidar com **relacionamentos do tipo N:N** entre entidades, mais especificamente entre **Séries** e **Atores**, simulando a plataforma de streaming _PUCFlix_.
 
@@ -17,7 +17,7 @@ A modelagem foi orientada a objetos e o projeto foi modularizado para facilitar 
 
 ---
 
-## 👥 Participantes
+## Participantes
 
 - Alexandre Niess
 - Gabriel Valedo
@@ -26,18 +26,34 @@ A modelagem foi orientada a objetos e o projeto foi modularizado para facilitar 
 
 ---
 
-## 🧱 Estrutura de Classes e Funcionalidades
+## Estrutura de Classes
 
-### 🔹 `Atuacao` (Model)
+### Model:
+
+#### 'ParIdId', ParIDEndereço, ParNomeId
+
+Índices para armazenar pares de dados utilizados na árvore B+.
+
+#### 'Atuacao' 
 
 Classe que representa o relacionamento entre um ator e uma série.
 
 - Atributos: `id`, `serieId`, `atorId`, `papel`
-- Métodos principais:
-  - `toByteArray()` e `fromByteArray()` – serialização e desserialização
-  - Getters e setters
 
-### 🔹 `ArqAtuacao` (Entidades.aed3)
+#### 'Ator','Episodio','Serie'
+
+Classes modelo que representam uma entidade armazenada
+
+
+### 'View'
+
+#### 'MenuAtores', 'MenuAtuacao', 'MenuEpisodio' e 'MenuSeries'
+
+Classes responsáveis pela interação com o usuário
+
+### 'Arquivos'
+
+#### 'ArqAtuacao'
 
 Classe que gerencia o CRUD das atuações, mantendo dois índices B+:
 
@@ -51,26 +67,26 @@ Classe que gerencia o CRUD das atuações, mantendo dois índices B+:
   - `deleteBySerie(int)` – apaga vínculos de uma série
   - `existsForAtor(int)` – verifica se um ator tem vínculos
 
-### 🔹 `ParIdId` (Model)
+#### 'ArqSerie'
 
-Classe auxiliar para armazenar pares de inteiros utilizados nos índices B+.
+
 
 ---
 
-## 💻 O que o sistema faz?
+## O que o sistema faz?
 
-- Permite cadastrar, consultar, atualizar e excluir **séries**, **episódios** e **atores**.
-- Implementa o CRUD completo da classe `Atuacao`, incluindo persistência em disco.
+- Permite cadastrar, consultar, atualizar e excluir séries, episódios e **atores.
+- Implementa o CRUD completo da classe 'Atuacao' com relacionamento N:N, incluindo persistência em disco.
 - Garante integridade dos dados durante operações de exclusão:
-  - **Não é possível excluir um ator se ele estiver vinculado a alguma série.**
-  - **Ao excluir uma série, todas as suas atuações são removidas.**
+  - Não é possível excluir um ator se ele estiver vinculado a alguma série.
+  - Ao excluir uma série, todas as suas atuações são removidas.
 - Permite consultas bidirecionais do relacionamento N:N:
   - Séries → Atores
   - Atores → Séries
 
 ---
 
-## 📖 Relato da Experiência
+## Relato da Experiência
 
 O trabalho foi dividido entre os membros do grupo para otimizar o tempo e aprofundar o aprendizado em áreas específicas. A parte de **relacionamento N:N (Atuações)** foi particularmente desafiadora, especialmente na criação de duas árvores B+ distintas e sincronizadas.
 
@@ -92,7 +108,7 @@ Todos os requisitos foram implementados com sucesso, com testes cobrindo inclus�
 
 ---
 
-## ✅ Checklist de Verificação
+## Checklist de Verificação
 
 | Requisito                                                                                                           | Status |
 |--------------------------------------------------------------------------------------------------------------------|--------|
@@ -110,7 +126,7 @@ Todos os requisitos foram implementados com sucesso, com testes cobrindo inclus�
 
 ---
 
-## 📎 Observações Finais
+## Observações Finais
 
 O código está estruturado de forma que novas entidades e relacionamentos possam ser adicionados com facilidade. O uso de árvores B+ provou ser eficaz para a indexação bidirecional, e o padrão de projeto adotado favorece reuso e manutenção.
 
