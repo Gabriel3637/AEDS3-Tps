@@ -307,7 +307,7 @@ public class MenuAtores{
                   strsexo = console.nextLine();
                   
                   if(strsexo.length()==0)
-                      return;
+                    dadosCorretos = true;
                   if(nome.length()>0){
                     
                     novosexo = strsexo.charAt(0);
