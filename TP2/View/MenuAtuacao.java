@@ -152,7 +152,7 @@ public class MenuAtuacao{
                     return;
                 if(nome.length()>0)
                     dadosCorretos = true;
-            } while(dadosCorretos);
+            } while(!dadosCorretos);
             
 
             System.out.print("\nConfirma a inclusão da atuação? (S/N) ");
