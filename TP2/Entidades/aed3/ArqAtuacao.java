@@ -16,12 +16,12 @@ public class ArqAtuacao extends Arquivo<Atuacao> {
         indiceSerie = new ArvoreBMais<>(
             ParIdId.class.getConstructor(), 
             5, 
-            "./Dados/indiceSerieAtuacao.db");
+            "./Dados/Atuacao/indiceSerieAtuacao.db");
 
         indiceAtor = new ArvoreBMais<>(
             ParIdId.class.getConstructor(), 
             5, 
-            "./Dados/indiceAtorAtuacao.db");
+            "./Dados/Atuacao/indiceAtorAtuacao.db");
     }
 
     @Override
