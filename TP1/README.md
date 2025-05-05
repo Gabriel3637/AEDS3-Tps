@@ -6,12 +6,6 @@ Este projeto tem como objetivo a implementação de um CRUD (Create, Read, Updat
 
 Cada tarefa possui os seguintes atributos:
 
-- **Nome**: Descrição da tarefa.
-- **Data de Criação**: Data em que a tarefa foi criada.
-- **Data de Conclusão**: Data em que a tarefa foi concluída.
-- **Status**: Estado atual da tarefa (Pendente, Em Progresso, Concluída, etc.).
-- **Prioridade**: Nível de prioridade da tarefa.
-
 ## Estrutura do Registro
 
 Os registros no arquivo são compostos por três partes:
