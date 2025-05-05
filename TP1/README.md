@@ -95,7 +95,11 @@ em equipe.
 
 ## Integrantes
 Alexandre Niess
+
 Gabriel Valedo 
+
 Henrique Gilbert
+
+Leonardo Amaral
 
 ## FIM
