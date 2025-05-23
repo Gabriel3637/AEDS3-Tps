@@ -111,6 +111,9 @@ public class Main {
             lista.decrementaEntidades();
             System.out.println("Entidades: " + lista.numeroEntidades());
           }
+          case 9: {
+            lista.print();
+          }
             break;
           case 0:
             break;

@@ -22,11 +22,44 @@ public class Chamada{
     }
   }
   
-  public static void opincluir(){}
-  
+  public static void opincluir(){
+    int idteste = 0;
+    System.out.println("Digite a frase: ");
+    String teste = console.nextLine();
+    System.out.println("Digite o id: ");
+    try {
+      idteste = Integer.valueOf(console.nextLine());
+    } catch (NumberFormatException e) {
+      idteste = 0;
+    }
+    if(teste.isEmpty()){
+      teste = "A computação é a arte de dizer ao computador o que fazer";
+    }
+    System.out.println(teste);
+    lista.inserir(teste, idteste);
+  }
+  public static void oppritar(){
+    lista.printlista();
+  }
   public static void opbuscar(){}
   public static void opatualizar(){}
-  public static void opdeletar(){}
+  public static void opdeletar(){
+    int idteste = 0;
+    System.out.println("Digite a frase: ");
+    String teste = console.nextLine();
+    System.out.println("Digite o id: ");
+    try {
+      idteste = Integer.valueOf(console.nextLine());
+    } catch (NumberFormatException e) {
+      idteste = 0;
+    }
+    if(teste.isEmpty()){
+      teste = "A computação é a arte de dizer ao computador o que fazer";
+    }
+    System.out.println(teste);
+    lista.excluir(teste, idteste);
+  }
+  
   
   public static void main(String[] args){
     try{
@@ -40,6 +73,7 @@ public class Chamada{
         System.out.println("3) Buscar");
         System.out.println("4) Atualizar");
         System.out.println("5) Deletar");
+        System.out.println("6) Printar");
         System.out.println("Escolha uma opcao:");
         
         try {
@@ -63,6 +97,9 @@ public class Chamada{
             break;
           case 5: 
             opdeletar();
+            break;
+          case 6: 
+            oppritar();
             break;
           default:
             System.out.println("Erro");
