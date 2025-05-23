@@ -41,7 +41,19 @@ public class Chamada{
   public static void oppritar(){
     lista.printlista();
   }
-  public static void opbuscar(){}
+  public static void opbuscar(){
+    System.out.println("Digite a frase: ");
+    String teste = console.nextLine();
+    if(teste.isEmpty()){
+      teste = "A computação é a arte de dizer ao computador o que fazer";
+    }
+    System.out.println(teste);
+    ArrayList<ElementoLista> a = lista.buscar(teste);
+    for (ElementoLista b : a) {
+      System.out.println("Id: " + b.getId());  
+    }
+    
+  }
   public static void opatualizar(){}
   public static void opdeletar(){
     int idteste = 0;
