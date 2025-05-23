@@ -53,7 +53,6 @@ public class ListaInvertidaImplementada{
   }
   
   public boolean inserir(String s, int id){
-<<<<<<< HEAD:TP3/Entidades/aed3/ListaInvertida/ListaInvertidaImplementada.java
     try{
       ArrayList<String> palavras = normalizar(s);
       int tam = palavras.size(), contpalavras = 0, contconj = 0;
