@@ -76,13 +76,14 @@ public class ListaInvertidaImplementada{
       palavras.sort((a, b) -> {return a.compareTo(b);});
       float frequencia = 0;
       do{
+        
         palavraselecionada = palavras.get(contpalavras);
-        contpalavras++;
-        contconj = 1;
-        while(contpalavras < tam-1 && palavraselecionada.compareTo(palavras.get(contpalavras + 1)) == 0){
+        contconj = 0;
+        while( contpalavras < tam && palavraselecionada.compareTo(palavras.get(contpalavras)) == 0){
           contconj++;
+          contpalavras++;
         }
-        frequencia = (float)contconj/(float)tam;
+        frequencia = (float)contconj /(float)tam;
         resp = listainv.create(palavraselecionada , new ElementoLista(id, frequencia));
       }while(resp && contpalavras < tam);
       if(resp){
@@ -94,6 +95,50 @@ public class ListaInvertidaImplementada{
     
     return resp;
   }
+  
+  public boolean atualizar(String ant, String s, int id){
+    boolean resp = false;
+    try{
+      ArrayList<String> palavras = normalizar(s);
+      ArrayList<String> palavrasAntigas = normalizar(ant);
+      int tamnov = palavras.size(), tamant = palavrasAntigas.size(), contpalavras = 0, contconj = 0;
+      String palavraselecionada = "";
+      ElementoLista elementoteste;
+      
+      palavrasAntigas.sort((a, b) -> {return a.compareTo(b);});
+      palavras.sort((a, b) -> {return a.compareTo(b);});
+      
+      do{
+        palavraselecionada = palavrasAntigas.get(contpalavras);
+        if(contpalavras == 0 || palavraselecionada.compareTo(palavrasAntigas.get(contpalavras-1)) != 0){
+          
+          resp = listainv.delete(palavraselecionada , id);
+          
+        }
+        contpalavras++;
+      }while(resp && contpalavras < tamant);
+      contpalavras = 0;
+      if(resp){
+        float frequencia = 0;
+        do{
+          palavraselecionada = palavras.get(contpalavras);
+          contconj = 0;
+          while(contpalavras < tamnov && palavraselecionada.compareTo(palavras.get(contpalavras)) == 0){
+            contpalavras++;
+            contconj++;
+          }
+          frequencia = (float)contconj/(float)tamnov;
+          resp = listainv.create(palavraselecionada , new ElementoLista(id, frequencia));
+        }while(resp && contpalavras < tamnov);
+      }
+    }catch(Exception e){
+      e.printStackTrace();
+    }
+    
+    return resp;
+  }
+  
+  
   public boolean excluir(String s, int id){
     boolean resp = false;
     try{
