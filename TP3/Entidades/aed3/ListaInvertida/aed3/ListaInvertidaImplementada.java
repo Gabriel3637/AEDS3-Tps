@@ -63,7 +63,7 @@ public class ListaInvertidaImplementada{
       palavraselecionada = palavras.get(contpalavras);
       contpalavras++;
       contconj = 1;
-      while(palavraselecionada.compareTo(palavras.get( contpalavras + 1)) == 0){
+      while(palavraselecionada.compareTo(palavras.get( contpalavras + 1)) = 0){
         contconj++;
       }
       frequencia = (float)contconj/(float)tam;
