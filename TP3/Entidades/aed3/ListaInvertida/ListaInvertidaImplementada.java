@@ -74,25 +74,6 @@ public class ListaInvertidaImplementada{
     }catch(Exception e){
       e.printStackTrace();
     }
-=======
-    ArrayList<String> palavras = normalizar(s);
-    int tam = palavras.size(), contpalavras = 0, contconj = 0;
-    String palavraselecionada = "";
-    
-    palavras.sort((a, b) -> {return a.compareTo(b);});
-    float frequencia = 0;
-    do{
-      palavraselecionada = palavras.get(contpalavras);
-      contpalavras++;
-      contconj = 1;
-      while(palavraselecionada.compareTo(palavras.get( contpalavras + 1)) = 0){
-        contconj++;
-      }
-      frequencia = (float)contconj/(float)tam;
-      listainv.create(palavraselecionada , new ElementoLista(id, frequencia));
-    }while(contpalavras < tam);
->>>>>>> 5291665c601216205cac17c7424d96427f050732:TP3/Entidades/aed3/ListaInvertida/aed3/ListaInvertidaImplementada.java
-    
     
     return true;
   }
