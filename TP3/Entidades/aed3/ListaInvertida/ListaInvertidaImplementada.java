@@ -4,6 +4,7 @@ import java.util.Scanner;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.text.Normalizer;
 import java.util.regex.Pattern;
@@ -316,7 +317,7 @@ public class ListaInvertidaImplementada{
     int id = -2;
       try {
         //coloca os termos nas classes
-        System.out.println("a");
+        //System.out.println("a");
         ArrayList<String> palavras = normalizar(s);
         Termo[] t = new Termo[palavras.size()];
         for(int i=0;i<palavras.size();i++){
@@ -330,41 +331,45 @@ public class ListaInvertidaImplementada{
             t[i].elementos[j].setFrequencia(t[i].elementos[j].getFrequencia()*t[i].getIdf());
           }
         }
-        System.out.println("aa");
+        //System.out.println("aa");
         //somar de todos os termos
         //ElementoLista[] ele = new ElementoLista[listainv.numeroEntidades()];
         int[] ids = new int[1000]; // tamanho máximo arbitrário
-        float[] somas = new float[listainv.numeroEntidades()];
+        System.out.println("Aqui: "+listainv.numeroEntidades());
+        float[] somas = new float[listainv.numeroEntidades()+1];
         for(int i=0;i<listainv.numeroEntidades();i++){
           somas[i]=0;
         }
         for(int i=0;i<palavras.size();i++){
           for(int j=0;j<t[i].getElementos().length;j++){
             somas[t[i].elementos[j].getId()] = somas[t[i].elementos[j].getId()] + t[i].elementos[j].getFrequencia();
-            System.out.println("Id: "+t[i].elementos[j].getId() + ", Soma: " + somas[t[i].elementos[j].getId()]);
+            //System.out.println("Id: "+t[i].elementos[j].getId() + ", Soma: " + somas[t[i].elementos[j].getId()]);
           }
         }
         ArrayList<Integer> x = new ArrayList<Integer>();
-        for(int i=0;i<palavras.size();i++){
-          if(somas[i] > 0.001){
+        for(int i=0;i<listainv.numeroEntidades()+1;i++){
+          if(somas[i] > 0){
             x.add(i);
-            //System.out.println("adcionou aqui");
+            //System.out.println("x add: "+ i);
           }
         }
         for(int i=0;i<x.size();i++){
-          a.add(new ElementoLista(x.get(i),somas[x.get(i)]));
-          System.out.println("Colocando aqui: "+a.get(i).getId());
+          //System.out.println("Soma2: "+somas[x.get(i)]);
         }
-        //retornar o maior
-        /*Arrays.sort(ele, Comparator.comparingDouble(ElementoLista::getFrequencia));
-        for(int i=0;i<listainv.numeroEntidades();i++){
+        for(int i=0;i<x.size();i++){
+          a.add(new ElementoLista(x.get(i),somas[x.get(i)]));
+          //System.out.println("Colocando aqui: "+a.get(i).getId());
+        }
+        //ordenar a
+        Collections.sort(a, Comparator.comparingDouble(ElementoLista::getFrequencia).reversed());
+        /*for(int i=0;i<listainv.numeroEntidades();i++){
           System.out.print(ele[i] + " ");
         }
         id = ele[ele.length - 1].getId();*/
       } catch (Exception e) {
         e.printStackTrace();
       }
-      System.out.println("aaaa");
+      //System.out.println("aaaa");
     return a;
   }
 }
