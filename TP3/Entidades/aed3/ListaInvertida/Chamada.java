@@ -41,7 +41,7 @@ public class Chamada{
   public static void oppritar(){
     lista.printlista();
   }
-  public static void opbuscar(){}
+
   public static void opatualizar(){
     int idteste = 0;
     System.out.println("Digite a frase antiga: ");
@@ -62,6 +62,20 @@ public class Chamada{
       teste2 = "A programação é a arte de dizer ao computador o que fazer";
     }
     lista.atualizar(teste, teste2, idteste);
+  }
+
+  public static void opbuscar(){
+    System.out.println("Digite a frase: ");
+    String teste = console.nextLine();
+    if(teste.isEmpty()){
+      teste = "A computação é a arte de dizer ao computador o que fazer";
+    }
+    System.out.println(teste);
+    ArrayList<ElementoLista> a = lista.buscar(teste);
+    for (ElementoLista b : a) {
+      System.out.println("Id: " + b.getId());  
+    }
+    
   }
   public static void opdeletar(){
     int idteste = 0;
