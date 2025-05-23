@@ -1,8 +1,8 @@
 # AEDS3 - TP2: Relacionamento N:N entre Séries e Atores
 
-## 📌 Descrição Geral
+## Descrição Geral
 
-Neste trabalho prático, evoluímos o sistema desenvolvido no TP1 para lidar com **relacionamentos do tipo N:N** entre entidades, mais especificamente entre **Séries** e **Atores**, simulando a plataforma de streaming _PUCFlix_.
+Neste trabalho prático, evoluímos o sistema desenvolvido no TP1 para lidar com **relacionamentos do tipo N:N** entre entidades, mais especificamente entre **Séries** e **Atores**.
 
 Nosso sistema é capaz de:
 
@@ -17,7 +17,7 @@ A modelagem foi orientada a objetos e o projeto foi modularizado para facilitar 
 
 ---
 
-## 👥 Participantes
+## Participantes
 
 - Alexandre Niess
 - Gabriel Valedo
@@ -26,59 +26,123 @@ A modelagem foi orientada a objetos e o projeto foi modularizado para facilitar 
 
 ---
 
-## 🧱 Estrutura de Classes e Funcionalidades
+## Estrutura de Classes
 
-### 🔹 `Atuacao` (Model)
+### Model:
+
+#### 'ParIdId', ParIDEndereço, ParNomeId
+
+Índices para armazenar pares de dados na árvore B+.
+
+#### 'Atuacao' 
 
 Classe que representa o relacionamento entre um ator e uma série.
 
-- Atributos: `id`, `serieId`, `atorId`, `papel`
-- Métodos principais:
-  - `toByteArray()` e `fromByteArray()` – serialização e desserialização
-  - Getters e setters
+#### 'Ator','Episodio'
 
-### 🔹 `ArqAtuacao` (Entidades.aed3)
+Classes modelo que representam uma entidade armazenada
+
+#### 'Serie'
+
+Classe modelo que representa uma entidade armazenada
+
+### 'View'
+
+Classes responsáveis pela interação com o usuário
+
+#### 'MenuAtores'
+
+- Métodos principais:
+  - incluirAtor() – Recebe os dados e chama o metodo para criar o ator na memória secundária
+  - buscarAtor() – Busca o ator na memória secundária pelo seu nome
+  - alterarAtor() – Seleciona o ator pelo nome e recebe os dados para altera-lo na memória secundária
+  - excluirAtor() – Seleciona o ator pelo nome e chama o metodo para excluir da memória secundária
+  - listaratuacoes() – Seleciona o ator pelo nome e chama o metodo para exibir todas as suas atuações
+ 
+#### 'MenuEpisodio'
+- Métodos principais:
+  - incluirEpisodio() – Recebe os dados e chama o metodo para criar o episódio na memória secundária
+  - buscarEpisodio() – Busca o episódio na memória secundária pelo seu nome
+  - alterarEpisodio() – Seleciona o episódio pelo nome e recebe os dados para altera-lo na memória secundária
+  - excluirEpisodio() – Seleciona o episódio pelo nome e chama o metodo para excluir da memória secundária
+
+#### 'MenuSeries' 
+- Métodos principais:
+  - incluirSerie() – Recebe os dados e chama o metodo para criar a série na memória secundária
+  - buscarSerie() – Busca a série na memória secundária pelo seu nome
+  - alterarSerie() – Seleciona a série pelo nome e recebe os dados para altera-lo na memória secundária
+  - excluirSerie() – Seleciona a série pelo nome e chama o metodo para excluir da memória secundária
+  - EpisodioSerie() – Exibe o MenuEpisodio referente uma serie previamente selecionada pelo nome
+  - AtuacaoSerie() – Exibe o MenuAtuacao referente uma serie previamente selecionada pelo nome
+
+#### 'MenuAtuacao'
+- Métodos principais:
+  - incluirAtuacao() – Recebe os dados e chama o metodo para criar a atuação na memória secundária
+  - buscarAtuacao() – Busca a atuação na memória secundária pelo seu nome
+  - alterarAtuacao() – Seleciona a atuação pelo nome e recebe os dados para altera-lo na memória secundária
+  - excluirAtuacao() – Seleciona a atuação pelo nome e chama o metodo para excluir da memória secundária
+  - listarAtuacao() -  Chama o metodo para exibir todas as atuações da série selecionda previamente
+
+### 'Arquivos'
+
+#### 'ArqAtuacao'
 
 Classe que gerencia o CRUD das atuações, mantendo dois índices B+:
 
-- `indiceSerieAtuacao.db` → busca por `idSerie`
-- `indiceAtorAtuacao.db` → busca por `idAtor`
 - Métodos principais:
-  - `create(Atuacao)` – cria e indexa
-  - `readBySerieId(int)` – retorna as atuações de uma série
-  - `readByAtorId(int)` – retorna as atuações de um ator
-  - `delete(int)` – remove atuação e atualiza índices
-  - `deleteBySerie(int)` – apaga vínculos de uma série
-  - `existsForAtor(int)` – verifica se um ator tem vínculos
+  - 'readAtorSerie(int atorId, int serieId)' – retorna um array com as relações entre um ator e uma série
+  - 'readSerie(int serieId)' – retorna todas as atuações de uma série
+  - 'readAtor(int atorId)' – retorna todas as atuações de um ator
 
-### 🔹 `ParIdId` (Model)
+#### 'ArqSerie'
 
-Classe auxiliar para armazenar pares de inteiros utilizados nos índices B+.
+Classe que gerencia o índice de série e o armazenamento das séries
+
+Métodos principais:
+  - 'readNome(String nome)' - recebe um nome e retorna um array com as séries por meio da árvore B+
+  - 'create(Serie s)' - cria uma série, atualiza o indice e salva na árvore B+
+
+#### 'ArqAtor'
+
+Classe que gerencia os índices de ator e o armazenamento dos atores.
+
+Métodos principais:
+  - 'readNome(String nome)' - recebe um nome e retorna um array com os atores  por meio da árvore B+
+  - 'create(Ator s)' - cria um ator, atualiza o indice e salva na árvore B+
+
+
+#### 'ArqEpisodio'
+
+Classe que gerencia os índices do episódio e o armazenamento dos episódios.
+
+Métodos principais:
+  - 'readNomeSerieId(String nome, int serieId)' - recebe um nome e uma série e retorna um array com os episódios por meio da árvore B+
+  - 'create(Episodio s)' - cria um episódio, atualiza o indice e salva na árvore B+
 
 ---
 
-## 💻 O que o sistema faz?
+## O que o sistema faz?
 
-- Permite cadastrar, consultar, atualizar e excluir **séries**, **episódios** e **atores**.
-- Implementa o CRUD completo da classe `Atuacao`, incluindo persistência em disco.
+- Permite cadastrar, consultar, atualizar e excluir séries, episódios e **atores.
+- Implementa o CRUD completo da classe 'Atuacao' com relacionamento N:N, incluindo persistência em disco.
 - Garante integridade dos dados durante operações de exclusão:
-  - **Não é possível excluir um ator se ele estiver vinculado a alguma série.**
-  - **Ao excluir uma série, todas as suas atuações são removidas.**
+  - Não é possível excluir um ator se ele estiver vinculado a alguma série.
+  - Ao excluir uma série, todas as suas atuações são removidas.
 - Permite consultas bidirecionais do relacionamento N:N:
   - Séries → Atores
   - Atores → Séries
 
 ---
 
-## 📖 Relato da Experiência
+## Relato da Experiência
 
-O trabalho foi dividido entre os membros do grupo para otimizar o tempo e aprofundar o aprendizado em áreas específicas. A parte de **relacionamento N:N (Atuações)** foi particularmente desafiadora, especialmente na criação de duas árvores B+ distintas e sincronizadas.
+O trabalho foi dividido entre os membros do grupo para otimizar o tempo e aprofundar o aprendizado em áreas específicas. A parte de **relacionamento N:N (Atuações)** foi particularmente desafiadora, especialmente em acessar o papel pelo menu de atores. Evidencia-se também com relação à busca de mais de um episódio e mais de um ator em atuações.
 
 ### Principais Desafios:
 
 - **Manter a consistência entre os arquivos de dados e os índices** (inclusão e exclusão dupla).
 - **Testar as operações compostas** (excluir série, listar atores, etc.).
-- **Garantir que os dados não se corrompessem ao atualizar os vínculos** entre entidades.
+- **Garantir que não haja alteração imprópria ao atualizar os vínculos** entre entidades.
 
 ### Aprendizados:
 
@@ -92,7 +156,7 @@ Todos os requisitos foram implementados com sucesso, com testes cobrindo inclus�
 
 ---
 
-## ✅ Checklist de Verificação
+## Checklist de Verificação
 
 | Requisito                                                                                                           | Status |
 |--------------------------------------------------------------------------------------------------------------------|--------|
@@ -110,7 +174,7 @@ Todos os requisitos foram implementados com sucesso, com testes cobrindo inclus�
 
 ---
 
-## 📎 Observações Finais
+## Observações Finais
 
 O código está estruturado de forma que novas entidades e relacionamentos possam ser adicionados com facilidade. O uso de árvores B+ provou ser eficaz para a indexação bidirecional, e o padrão de projeto adotado favorece reuso e manutenção.
 
