@@ -75,13 +75,14 @@ public class ListaInvertidaImplementada{
       palavras.sort((a, b) -> {return a.compareTo(b);});
       float frequencia = 0;
       do{
+        
         palavraselecionada = palavras.get(contpalavras);
-        contpalavras++;
-        contconj = 1;
-        while(contpalavras < tam-1 && palavraselecionada.compareTo(palavras.get(contpalavras + 1)) == 0){
+        contconj = 0;
+        while( contpalavras < tam && palavraselecionada.compareTo(palavras.get(contpalavras)) == 0){
           contconj++;
+          contpalavras++;
         }
-        frequencia = (float)contconj/(float)tam;
+        frequencia = (float)contconj /(float)tam;
         resp = listainv.create(palavraselecionada , new ElementoLista(id, frequencia));
       }while(resp && contpalavras < tam);
       if(resp){
@@ -120,9 +121,9 @@ public class ListaInvertidaImplementada{
         float frequencia = 0;
         do{
           palavraselecionada = palavras.get(contpalavras);
-          contpalavras++;
-          contconj = 1;
-          while(contpalavras < tamnov-1 && palavraselecionada.compareTo(palavras.get(contpalavras + 1)) == 0){
+          contconj = 0;
+          while(contpalavras < tamnov && palavraselecionada.compareTo(palavras.get(contpalavras)) == 0){
+            contpalavras++;
             contconj++;
           }
           frequencia = (float)contconj/(float)tamnov;
