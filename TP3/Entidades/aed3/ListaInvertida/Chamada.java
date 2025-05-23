@@ -42,7 +42,27 @@ public class Chamada{
     lista.printlista();
   }
   public static void opbuscar(){}
-  public static void opatualizar(){}
+  public static void opatualizar(){
+    int idteste = 0;
+    System.out.println("Digite a frase antiga: ");
+    String teste = console.nextLine();
+    System.out.println("Digite a frase nova: ");
+    String teste2 = console.nextLine();
+    
+    System.out.println("Digite o id: ");
+    try {
+      idteste = Integer.valueOf(console.nextLine());
+    } catch (NumberFormatException e) {
+      idteste = 0;
+    }
+    if(teste.isEmpty()){
+      teste = "A computação é a arte de dizer ao computador o que fazer";
+    }
+    if(teste2.isEmpty()){
+      teste2 = "A programação é a arte de dizer ao computador o que fazer";
+    }
+    lista.atualizar(teste, teste2, idteste);
+  }
   public static void opdeletar(){
     int idteste = 0;
     System.out.println("Digite a frase: ");
