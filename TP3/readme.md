@@ -94,8 +94,12 @@ permitiu aprofundar conhecimentos em:
     SIM
     ```
 
-## Integrantes:
+#👨‍💻Integrantes
 Alexandre Augusto
+
 Gabriel Valedo
+
 Henrique Gilbert
+
 Leonardo Amaral
+
