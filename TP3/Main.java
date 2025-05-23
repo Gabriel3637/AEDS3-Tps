@@ -1,7 +1,7 @@
 import java.util.Scanner;
 import java.io.File;
-import aed3.ListaInvertida;
-import aed3.ElementoLista;
+import Entidades.aed3.ListaInvertida.ListaInvertida;
+import Entidades.aed3.ListaInvertida.ElementoLista;
 
 public class Main {
 
@@ -15,7 +15,7 @@ public class Main {
       File d = new File("dados");
       if (!d.exists())
         d.mkdir();
-      lista = new ListaInvertida(4, "dados/dicionario.listainv.db", "dados/blocos.listainv.db");
+      lista = new ListaInvertida(4, "dadosteste/dicionario.listainv.db", "dadosteste/blocos.listainv.db");
 
       int opcao;
       do {

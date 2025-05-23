@@ -1,4 +1,4 @@
-package aed3;
+package Entidades.aed3.ListaInvertida;
 
 import java.util.Scanner;
 import java.io.File;
@@ -53,22 +53,26 @@ public class ListaInvertidaImplementada{
   }
   
   public boolean inserir(String s, int id){
-    ArrayList<String> palavras = normalizar(s);
-    int tam = palavras.size(), contpalavras = 0, contconj = 0;
-    String palavraselecionada = "";
-    
-    palavras.sort((a, b) -> {return a.compareTo(b);});
-    float frequencia = 0;
-    do{
-      palavraselecionada = palavras.get(contpalavras);
-      contpalavras++;
-      contconj = 1;
-      while(palavraselecionada.compareTo(palavras.get(contpalavras + 1)) = 0){
-        contconj++;
-      }
-      frequencia = (float)contconj/(float)tam;
-      listainv.create(palavraselecionada , new ElementoLista(id, frequencia));
-    }while(contpalavras < tam);
+    try{
+      ArrayList<String> palavras = normalizar(s);
+      int tam = palavras.size(), contpalavras = 0, contconj = 0;
+      String palavraselecionada = "";
+      
+      palavras.sort((a, b) -> {return a.compareTo(b);});
+      float frequencia = 0;
+      do{
+        palavraselecionada = palavras.get(contpalavras);
+        contpalavras++;
+        contconj = 1;
+        while(palavraselecionada.compareTo(palavras.get(contpalavras + 1)) == 0){
+          contconj++;
+        }
+        frequencia = (float)contconj/(float)tam;
+        listainv.create(palavraselecionada , new ElementoLista(id, frequencia));
+      }while(contpalavras < tam);
+    }catch(Exception e){
+      e.printStackTrace();
+    }
     
     
     return true;

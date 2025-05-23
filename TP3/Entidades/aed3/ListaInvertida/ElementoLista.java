@@ -1,4 +1,4 @@
-package aed3;
+package Entidades.aed3.ListaInvertida;
 
 public class ElementoLista implements Comparable<ElementoLista>, Cloneable {
     

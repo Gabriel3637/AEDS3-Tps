@@ -1,7 +1,7 @@
-package aed3;
+package Entidades.aed3.ListaInvertida;
 
 import java.util.Scanner;
-import aed3.ListaInvertidaImplementada;
+import Entidades.aed3.ListaInvertida.ListaInvertidaImplementada;
 import java.util.ArrayList;
 import java.util.Arrays;
 
