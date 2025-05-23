@@ -14,101 +14,187 @@ public class ListaInvertidaImplementada{
   public ArrayList<String> stopwords;
   private ListaInvertida listainv;
   
+  /*
+  Identidade: ListaInvertidaImplementada()
+  Objetivo: Construtor da classe ListaInvertidaImplementada, receber como parametros String c com o local do arquivo das stopwords, inteiro tb com tamanho do bloco da listainvertida, String ad com local do arquivo dicionário, String ab com o local do arquivo de bloco, criar uma entidade listainv com o tb, ad e ab, criar um Scanner para ler o arquivo de stopwords adiciona-las a um arraylist 
+  Parametros:
+  -String c: Local do arquivo das stopwords
+  -int tb: Tamanho do bloco da lista invertida
+  -String ad: Local do arquivo de dicionario
+  -String ab: Local do arquivo de blocos
+  Retorno: Não há retorno
+  */
   public ListaInvertidaImplementada(String c, int tb, String ad, String ab) throws Exception {
-    listainv = new ListaInvertida(tb, ad, ab);
-    Scanner console = new Scanner(new File(c));
+    //Definir variáveis
     int cont = 0;
     String palavra = "";
     ArrayList<String> tmp = new ArrayList<>();
+    
+    //Criar classe da lista invertida
+    listainv = new ListaInvertida(tb, ad, ab);
+    
+    //Criar scanner para leitura do arquivo das stopwords
+    Scanner console = new Scanner(new File(c));
+    
+    //Adicionar todas as stopwords a um arraylist
     while(console.hasNext()){
       palavra = console.nextLine();
       tmp.add(palavra);
     }
+    
+    //Remover espaços excedentes do arraylist
     tmp.trimToSize();
     this.stopwords = tmp;
   }
   
+  /*
+  Identidade: printlista()
+  Objetivo: Printa todos os indices invertidos e a quantidade de elementos
+  Parametros:Não há parâmetros
+  Retorno: Não há retorno
+  */
   public void printlista(){
     try{
       listainv.print();
-      System.out.println(listainv.numeroEntidades());
+      System.out.println("Quantidade de entidades: " + listainv.numeroEntidades());
     }catch(Exception e){
       e.printStackTrace();
     }
   }
   
+  /*
+  Identidade: normalizar()
+  Objetivo: Recebe uma string s e o id do elemento como parâmetro, transforma todos os seu caracteres em minusculos, decompõe os caracteres acentuados (ã = a~), remove os caracteres de acento, remove as pontuações e caracteres especiais, remove espaços excedentes, gera um arraylist com todas as palavras restantes, gera uma arraylist com todas as palavras que não são stopwords e à retorna 
+  Parametros:
+  -String s: String a ser normalizada
+  Retorno: ArrayList<String>
+  -Contendo todas as palavras normalizadas sem stopwords
+  */
   public ArrayList<String> normalizar(String s){
+    //Definindo variaveis
     ArrayList<String> resp, tmp = new ArrayList<>();
     String normalizada;
     String palavaraatual = "";
     boolean verificarstop = false;
     int cont = 0;
+    
+    //Transforma todos os caracteres em minúsculos
     normalizada = s.toLowerCase();
+    
+    //Decompõe os caracteres acentuados (ã = a~), remove os caracteres de acento, remove as pontuações e caracteres especiais e remove espaços excedentes
     normalizada = Normalizer.normalize(normalizada, Normalizer.Form.NFKD).replaceAll("\\p{M}", "").replaceAll("[^a-z0-9\\s]", "").replaceAll("\\s+", " ");
     
+    //Gera array lista com todas as palavras restantes
     resp = new ArrayList<>(Arrays.asList(normalizada.split(" ")));
     
+    //Para todas as palavras geradas verifica se não há uma correspondente nas stopwords para adiciona-la a um novo arraylist
     for(String palavrafrase : resp){
       verificarstop = false;
+      
+      //Buscar se há correspondente nas stopword
       while(!verificarstop && cont < this.stopwords.size()){
         verificarstop = palavrafrase.compareTo(this.stopwords.get(cont)) == 0;
         cont += 1;
       }
+      
+      //Se não houver correspondente adicionar no arraylist final
       if(!verificarstop){
         tmp.add(palavrafrase);
       }
       cont = 0;
     }
+    
+    //Retirar espaços excedentes no arraylist
     tmp.trimToSize();
     resp = tmp;
+    
+    //Retorno
     return resp;
   }
   
+  /*
+  Identidade: inserir()
+  Objetivo: Recebe uma string s e o id do elemento como parametro, normaliza suas palavras, calcula a frequencia, adiciona na lista invertida e incrementa no contador de entidade
+  Parametros:
+  -String s: String contendo o nome da entidade a ser adicionada
+  -int id: Id da entidade a ser adicionada
+  Retorno: Boolean
+  -true: Se adicionado com sucesso
+  -false: Se não for adicionado com sucesso
+  */
   public boolean inserir(String s, int id){
     boolean resp = false;
     try{
+      //Definir variaveis
       ArrayList<String> palavras = normalizar(s);
       int tam = palavras.size(), contpalavras = 0, contconj = 0;
       String palavraselecionada = "";
-      ElementoLista elementoteste;
-      
-      palavras.sort((a, b) -> {return a.compareTo(b);});
       float frequencia = 0;
+      
+      //Ordenar arraylist das palavras normalizadas
+      palavras.sort((a, b) -> {return a.compareTo(b);});
+      
+      //Para cada palavra diferente contar quantas vezes aparece e calcular frequencia
       do{
-        
+        //Selecionar uma palavra
         palavraselecionada = palavras.get(contpalavras);
         contconj = 0;
+        
+        //Contar quantas vezes a palavra apareceu
         while( contpalavras < tam && palavraselecionada.compareTo(palavras.get(contpalavras)) == 0){
           contconj++;
           contpalavras++;
         }
+        
+        //Calcular a frequencia da palavra
         frequencia = (float)contconj /(float)tam;
+        
+        //Adicionar a palavra à lista invertida
         resp = listainv.create(palavraselecionada , new ElementoLista(id, frequencia));
       }while(resp && contpalavras < tam);
+      
+      //Se adicionado com sucesso incrementar o contador de entidades
       if(resp){
         listainv.incrementaEntidades();
       }
     }catch(Exception e){
+      System.out.println("[inserir]: Erro ao inserir entidade!");
       e.printStackTrace();
     }
     
     return resp;
   }
   
+  /*
+  Identidade: atualizar()
+  Objetivo: Recebe uma string ant com o string antigo do elemento, uma string s como o novo string do elemento e o id do elemento como parametro, normaliza as palavras das strings, exclui todos as palavras antigas, calcula a frequencia das palavras novas, adiciona na lista invertida as palvras novas
+  Parametros:
+  -String ant: String contendo o nome antigo da entidade a ser atualizada
+  -String s: String contendo o novo nome da entidade a ser atualizada
+  -int id: Id da entidade a ser atualizada
+  Retorno: Boolean
+  -true: Se atualizdo com sucesso
+  -false: Se não for atualizado com sucesso
+  */
   public boolean atualizar(String ant, String s, int id){
     boolean resp = false;
     try{
+      //Definir variáveis
       ArrayList<String> palavras = normalizar(s);
       ArrayList<String> palavrasAntigas = normalizar(ant);
       int tamnov = palavras.size(), tamant = palavrasAntigas.size(), contpalavras = 0, contconj = 0;
       String palavraselecionada = "";
-      ElementoLista elementoteste;
       
+      //Ordenar arraylist das palavras normalizadas antigas e novas
       palavrasAntigas.sort((a, b) -> {return a.compareTo(b);});
       palavras.sort((a, b) -> {return a.compareTo(b);});
       
+      //Para cada palavra diferente exclui-la
       do{
+        //Selecionar palavra
         palavraselecionada = palavrasAntigas.get(contpalavras);
+        
+        //Se a palavra for a primeira ou se for diferente da anterior exclui-la
         if(contpalavras == 0 || palavraselecionada.compareTo(palavrasAntigas.get(contpalavras-1)) != 0){
           
           resp = listainv.delete(palavraselecionada , id);
@@ -116,38 +202,66 @@ public class ListaInvertidaImplementada{
         }
         contpalavras++;
       }while(resp && contpalavras < tamant);
+      
+      //Reiniciar o contador
       contpalavras = 0;
       if(resp){
         float frequencia = 0;
+        
+        //Para cada palavra diferente contar quantas vezes aparece e calcular frequencia
         do{
+          //Selecionar uma palavra
           palavraselecionada = palavras.get(contpalavras);
           contconj = 0;
+          
+          //Contar quantas vezes a palavra apareceu
           while(contpalavras < tamnov && palavraselecionada.compareTo(palavras.get(contpalavras)) == 0){
             contpalavras++;
             contconj++;
           }
+          
+          //Calcular a frequencia da palavra
           frequencia = (float)contconj/(float)tamnov;
+          
+          //Adicionar a palavra à lista invertida
           resp = listainv.create(palavraselecionada , new ElementoLista(id, frequencia));
         }while(resp && contpalavras < tamnov);
       }
     }catch(Exception e){
+      System.out.println("[atualizar]: Erro ao atualizar entidade!");
       e.printStackTrace();
     }
     
     return resp;
   }
   
-  
+  /*
+  Identidade: excluir()
+  Objetivo: Recebe uma string s e o id do elemento como parametro, normaliza suas palavras, remove da lista invertida e decrementa no contador de entidade
+  Parametros:
+  -String s: String contendo o nome da entidade a ser excluida
+  -int id: Id da entidade a ser excluida
+  Retorno: Boolean
+  -true: Se excluida com sucesso
+  -false: Se não for excluida com sucesso
+  */
   public boolean excluir(String s, int id){
     boolean resp = false;
     try{
+      //Definir variaveis
       ArrayList<String> palavras = normalizar(s);
       int tam = palavras.size(), contpalavras = 0;
       String palavraselecionada = "";
       
+      //Ordenar arraylist das palavras normalizadas
       palavras.sort((a, b) -> {return a.compareTo(b);});
+      
+      //Para cada palavra diferente exclui-la
       do{
+        //Selecionar palavra
         palavraselecionada = palavras.get(contpalavras);
+        
+        //Se a palavra for a primeira ou se for diferente da anterior exclui-la
         if(contpalavras == 0 || palavraselecionada.compareTo(palavras.get(contpalavras-1)) != 0){
           
           resp = listainv.delete(palavraselecionada , id);
@@ -155,11 +269,12 @@ public class ListaInvertidaImplementada{
         }
         contpalavras++;
       }while(resp && contpalavras < tam);
-      
+      //Se a entidade for excluida com sucesso decrementar a quantidade de entidades
       if(resp){
         listainv.decrementaEntidades();
       }
     }catch(Exception e){
+      System.out.println("[excluir]: Erro ao excluir entidade!");
       e.printStackTrace();
     }
     
