@@ -157,7 +157,7 @@ public class ListaInvertidaImplementada{
     int id = -2;
       try {
         //coloca os termos nas classes
-        System.out.println("a");
+        //System.out.println("a");
         ArrayList<String> palavras = normalizar(s);
         Termo[] t = new Termo[palavras.size()];
         for(int i=0;i<palavras.size();i++){
@@ -171,7 +171,7 @@ public class ListaInvertidaImplementada{
             t[i].elementos[j].setFrequencia(t[i].elementos[j].getFrequencia()*t[i].getIdf());
           }
         }
-        System.out.println("aa");
+        //System.out.println("aa");
         //somar de todos os termos
         //ElementoLista[] ele = new ElementoLista[listainv.numeroEntidades()];
         int[] ids = new int[1000]; // tamanho máximo arbitrário
@@ -183,14 +183,14 @@ public class ListaInvertidaImplementada{
         for(int i=0;i<palavras.size();i++){
           for(int j=0;j<t[i].getElementos().length;j++){
             somas[t[i].elementos[j].getId()] = somas[t[i].elementos[j].getId()] + t[i].elementos[j].getFrequencia();
-            System.out.println("Id: "+t[i].elementos[j].getId() + ", Soma: " + somas[t[i].elementos[j].getId()]);
+            //System.out.println("Id: "+t[i].elementos[j].getId() + ", Soma: " + somas[t[i].elementos[j].getId()]);
           }
         }
         ArrayList<Integer> x = new ArrayList<Integer>();
         for(int i=0;i<listainv.numeroEntidades()+1;i++){
           if(somas[i] > 0){
             x.add(i);
-            System.out.println("x add: "+ i);
+            //System.out.println("x add: "+ i);
           }
         }
         for(int i=0;i<x.size();i++){
@@ -209,7 +209,7 @@ public class ListaInvertidaImplementada{
       } catch (Exception e) {
         e.printStackTrace();
       }
-      System.out.println("aaaa");
+      //System.out.println("aaaa");
     return a;
   }
 }
