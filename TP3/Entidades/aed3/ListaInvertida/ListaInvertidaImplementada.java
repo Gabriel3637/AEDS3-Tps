@@ -4,6 +4,7 @@ import java.util.Scanner;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.text.Normalizer;
 import java.util.regex.Pattern;
 
@@ -77,5 +78,73 @@ public class ListaInvertidaImplementada{
     return true;
   }
   
-  
+  public class Termo{
+    String termo;
+    int idf;
+    ElementoLista[] elementos;
+
+    public Termo(String t){
+      setTermo(t);
+    }
+
+    public String getTermo() {
+      return termo;
+    }
+    public void setTermo(String termo) {
+      this.termo = termo;
+    }
+    public int getIdf() {
+      return idf;
+    }
+    public void setIdf(int idf) {
+      this.idf = idf;
+    }
+    public ElementoLista[] getElementos() {
+      return elementos;
+    }
+    public void setElementos(ElementoLista[] elementos) {
+      this.elementos = elementos;
+    }
+
+    
+  }
+  public int buscar(String s){ // busca a palavra toda, tem que retornar o id com a maior soma
+
+    int id = -1;
+      try {
+        //coloca os termos nas classes
+        ArrayList<String> palavras = normalizar(s);
+        Termo[] t = new Termo[palavras.size()];
+        for(int i=0;i<palavras.size();i++){
+          t[i] = new Termo(palavras.get(i));
+          //procura a frequência do termo
+          t[i].setElementos(listainv.read(t[i].getTermo()));
+          //calcula o idf
+          t[i].setIdf(listainv.numeroEntidades()/(t[i].getElementos()).length);
+          //atualiza a frequência
+          for(int j=0;j<(t[i].getElementos()).length;j++){
+            t[i].elementos[j].setFrequencia(t[i].elementos[j].getFrequencia()*t[i].getIdf());
+          }
+        }
+        //somar de todos os termos
+        ElementoLista[] elementos = new ElementoLista[listainv.numeroEntidades()];
+        for(int i=0;i<palavras.size();i++){ //percorro os termos
+          for(int j=0;j<elementos.length;j++){
+            for(int k=0;k<(t[i].getElementos()).length;k++){
+              if(elementos[j].getId() == t[i].elementos[k].getId()){
+                  elementos[j].setFrequencia( elementos[j].getFrequencia()+t[i].elementos[k].getFrequencia());
+              }
+            }
+          }
+        }
+
+        //retornar o maior
+        Arrays.sort(elementos, Comparator.comparingDouble(ElementoLista::getFrequencia));
+        id = elementos[0].getId();
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+
+    return id;
+  }
 }
