@@ -57,42 +57,24 @@ permitiu aprofundar conhecimentos em:
 - Processamento de dados em massa com integridade e consistência.  
 - Planejamento de sistemas modulares, permitindo fácil expansão.  
 
-## Checklist  
+## Checklist ✅
 
-- O índice invertido com os termos das tarefas foi criado usando a classe ListaInvertida?
-    ```
-    SIM
-    ```
-
-- O CRUD de rótulos foi implementado?
-    ```
-    SIM
-    ```
-
-- No arquivo de tarefas, os rótulos são incluídos, alterados e excluídos em uma árvore B+? 
-    ```
-    SIM
-    ```
-
-- É possível buscar tarefas por palavras usando o índice invertido?
-    ```
-    SIM
-    ```
-
-- É possível buscar tarefas por rótulos usando uma árvore B+? 
-    ```
-    SIM
-    ```
-
-- O trabalho está completo?
-    ```
-    SIM
-    ```
-
-- O trabalho é original e não a cópia de um trabalho de um colega?
-    ```
-    SIM
-    ```
+- O índice invertido com os termos dos títulos das séries foi criado usando a classe `ListaInvertida`?
+- **Sim**
+- O índice invertido com os termos dos títulos dos episódios foi criado usando a classe `ListaInvertida`?
+- **Sim**
+-  O índice invertido com os termos dos nomes dos atores foi criado usando a classe `ListaInvertida`?
+-  **Sim**
+-  É possível buscar séries por palavras usando o índice invertido?
+-  **Sim**
+-  É possível buscar episódios por palavras usando o índice invertido?
+-  **Sim**
+-  É possível buscar atores por palavras usando o índice invertido?
+-  **Sim**
+-  O trabalho está completo?
+-  **Sim**
+-  O trabalho é original e não é cópia de um trabalho de um colega?
+-  **Sim**
 
 #👨‍💻Integrantes
 
