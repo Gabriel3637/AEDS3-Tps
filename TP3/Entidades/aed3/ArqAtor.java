@@ -40,7 +40,7 @@ public class ArqAtor extends Arquivo<Ator> {
     public Ator[] readNome(String nome) throws Exception {
         if(nome.length()==0)
             return null;
-        ArrayList<ElementoLista> ptis = lista.buscar(nome);;
+        ArrayList<ElementoLista> ptis = lista.buscar(nome);
         if(ptis.size()>0) {
             Ator[] series = new Ator[ptis.size()];
             int i=0;

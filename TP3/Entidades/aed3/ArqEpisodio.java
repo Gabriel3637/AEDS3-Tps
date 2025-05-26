@@ -3,6 +3,8 @@ import Model.Serie;
 import Model.Episodio;
 import Model.ParNomeId;
 import Model.ParIdId;
+import Entidades.aed3.ListaInvertida.ListaInvertidaImplementada;
+import Entidades.aed3.ListaInvertida.ElementoLista;
 
 import java.util.ArrayList;
 
@@ -12,6 +14,7 @@ public class ArqEpisodio extends Arquivo<Episodio> {
     Arquivo<Episodio> arquivo;
     ArvoreBMais<ParNomeId> indiceNome;
     ArvoreBMais<ParIdId> indiceSerie;
+    ListaInvertidaImplementada lista;
 
     public ArqEpisodio() throws Exception {
         super("Episodio", Episodio.class.getConstructor());
@@ -25,7 +28,7 @@ public class ArqEpisodio extends Arquivo<Episodio> {
             ParIdId.class.getConstructor(),
             5,
             "./Dados/Episodio/indiceId.db");
-        
+            lista = new ListaInvertidaImplementada("Dados/ListaInvertida/stopwords.txt", 4,"Dados/ListaInvertida/Atores/dicionario.listainv.db", "Dados/ListaInvertida/Atores/blocos.listainv.db");
     }
 
     @Override
@@ -33,13 +36,14 @@ public class ArqEpisodio extends Arquivo<Episodio> {
         int id = super.create(s);
         indiceNome.create(new ParNomeId(s.getNome(), id));
         indiceSerie.create(new ParIdId(s.getSerieId(),id));
+        lista.inserir(s.getNome(), s.getId());
         return id;
     }
 
     public Episodio[] readNomeSerieId(String nome, int serieId) throws Exception {
         if(nome.length()==0)
             return null;
-        ArrayList<ParNomeId> ptis = indiceNome.read(new ParNomeId(nome, -1));
+        ArrayList<ElementoLista> ptis = lista.buscar(nome);
         ArrayList<ParIdId> ptis2 = indiceSerie.read(new ParIdId(serieId, -1));
         /* 
         if(ptis.size()>0 && ptis2.size()>0) {
@@ -66,7 +70,7 @@ public class ArqEpisodio extends Arquivo<Episodio> {
                 int maior;
                 ArrayList<Episodio> atuacaoarraylist = new ArrayList<>();
                 int i=0;
-                for(ParNomeId pti: ptis)
+                for(ElementoLista pti: ptis)
                     for(ParIdId pti2: ptis2){
                         //System.out.println(pti.getId() + " " + pti2.getEpId());
                         if(pti.getId() == pti2.getEpId()){
@@ -85,7 +89,7 @@ public class ArqEpisodio extends Arquivo<Episodio> {
         Episodio s = read(id);   // na superclasse
         if(s!=null) {
             if(super.delete(id))
-                return indiceNome.delete(new ParNomeId(s.getNome(), id)) && indiceSerie.delete(new ParIdId(s.getSerieId(), id));
+                return lista.excluir(s.getNome(), s.getId());
         }
         return false;
     }
@@ -96,8 +100,7 @@ public class ArqEpisodio extends Arquivo<Episodio> {
         if(s!=null) {
             if(super.update(novoEp)) {
                 if(!s.getNome().equals(novoEp.getNome())) {
-                    indiceNome.delete(new ParNomeId(s.getNome(), s.getId()));
-                    indiceNome.create(new ParNomeId(novoEp.getNome(), novoEp.getId()));
+                    lista.atualizar(s.getNome(), novoEp.getNome(), novoEp.getId());
                 }
                 if(s.getSerieId() != (novoEp.getSerieId())) {
                     indiceSerie.delete(new ParIdId(s.getSerieId(), s.getId()));
