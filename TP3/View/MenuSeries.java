@@ -248,11 +248,13 @@ public class MenuSeries{
                         try {
                             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                             serieSelecionada.setLancamento(LocalDate.parse(novaData, formatter));  // Atualiza a data de lançamento se fornecida
+                            dadosCorretos = true;
                         } catch (Exception e) {
                             System.err.println("Data inválida. Valor mantido.");
                         }
-                    } else
+                    } else{
                         dadosCorretos = true;
+                    }
                 } while(!dadosCorretos);
 
                 // Alteração de sinopse
