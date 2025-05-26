@@ -208,7 +208,7 @@ public class MenuAtores{
                 System.out.println("Nenhuma atuação encontrada.");
             }
         } catch(Exception e) {
-            System.out.println("Erro do sistema. Não foi possível buscar as series!");
+            System.out.println("Erro do sistema. Não foi possível buscar as atuações!");
             e.printStackTrace();
         }
     }

@@ -10,11 +10,6 @@ import Model.Atuacao;
 import Entidades.aed3.ArqAtuacao;
 import Entidades.aed3.ArqAtor;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
-
 
 public class MenuAtuacao{
 
@@ -58,13 +53,14 @@ public class MenuAtuacao{
   }
   
   public void menu() {
+
     int opcao;
     do {
         System.out.println("\n\nPUCFlix 1.0");
         System.out.println("-------");
         System.out.println("> Início > Series > Atuação");
         System.out.println("1) Incluir");
-        System.out.println("2) Buscar ator por termos (Lista Invertida)");
+        System.out.println("2) Buscar");
         System.out.println("3) Alterar");
         System.out.println("4) Excluir");
         System.out.println("5) Listar atuações");
@@ -73,7 +69,7 @@ public class MenuAtuacao{
         System.out.print("\nOpção: ");
         try {
             opcao = Integer.valueOf(console.nextLine());
-        } catch (NumberFormatException e) {
+        } catch(NumberFormatException e) {
             opcao = -1;
         }
 
@@ -82,7 +78,7 @@ public class MenuAtuacao{
                 incluirAtuacao();
                 break;
             case 2:
-                buscarAtorPorTermo();
+                buscarAtuacao();
                 break;
             case 3:
                 alterarAtuacao();
@@ -101,8 +97,7 @@ public class MenuAtuacao{
         }
 
     } while (opcao != 0);
-}
-
+  }
   
     public void incluirAtuacao() {
       System.out.println("Inclusão de atuação");
@@ -482,67 +477,9 @@ public class MenuAtuacao{
       
     }
     
-    public void buscarAtorPorTermo() {
-        System.out.println("Busca de ator por termos");
-        System.out.print("Digite os termos de busca: ");
-        String consulta = console.nextLine();
     
-        if (consulta.isEmpty()) return;
     
-        try {
-            // Processa os termos da busca
-            var termos = Entidades.aed3.ListaInvertida.TextoUtil.processarTexto(consulta);
-            if (termos.isEmpty()) {
-                System.out.println("Nenhum termo válido na busca.");
-                return;
-            }
     
-            int N = arquivoAtor.listaInvertida.numeroEntidades();
-            Map<Integer, Float> scores = new HashMap<>();
     
-            for (String termo : termos) {
-                var lista = arquivoAtor.listaInvertida.read(termo);
-                if (lista.length == 0) continue;
-    
-                float idf = (float) (Math.log((double) N / lista.length) + 1);
-    
-                for (var elemento : lista) {
-                    float score = elemento.getFrequencia() * idf;
-                    scores.put(elemento.getId(), scores.getOrDefault(elemento.getId(), 0f) + score);
-                }
-            }
-    
-            if (scores.isEmpty()) {
-                System.out.println("Nenhum ator encontrado com esses termos.");
-                return;
-            }
-    
-            // Ordena os resultados
-            List<Map.Entry<Integer, Float>> resultados = new ArrayList<>(scores.entrySet());
-            resultados.sort((a, b) -> Float.compare(b.getValue(), a.getValue()));
-    
-            int n = 1;
-            for (var entry : resultados) {
-                Ator ator = arquivoAtor.readId(entry.getKey());
-                System.out.printf("%d) %s (Score: %.3f)\n", n++, ator.getNome(), entry.getValue());
-            }
-    
-            System.out.print("Escolha o ator para ver detalhes (ou 0 para sair): ");
-            int escolha;
-            try {
-                escolha = Integer.parseInt(console.nextLine());
-            } catch (NumberFormatException e) {
-                escolha = 0;
-            }
-    
-            if (escolha > 0 && escolha <= resultados.size()) {
-                Ator ator = arquivoAtor.readId(resultados.get(escolha - 1).getKey());
-                mostrarAtor(ator);
-            }
-    
-        } catch (Exception e) {
-            System.out.println("Erro na busca: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
+  
 }

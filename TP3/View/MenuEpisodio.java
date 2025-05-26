@@ -9,11 +9,6 @@ import java.util.Scanner;
 import Model.Episodio;
 
 import Entidades.aed3.ArqEpisodio;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
-
 
 
 public class MenuEpisodio{
@@ -41,13 +36,14 @@ public class MenuEpisodio{
   }
   
   public void menu() {
+
     int opcao;
     do {
         System.out.println("\n\nPUCFlix 1.0");
         System.out.println("-------");
         System.out.println("> Início > Series > Episodios");
         System.out.println("1) Incluir");
-        System.out.println("2) Buscar por termos (Lista Invertida)");
+        System.out.println("2) Buscar");
         System.out.println("3) Alterar");
         System.out.println("4) Excluir");
         System.out.println("0) Retomar ao menu anterior");
@@ -55,7 +51,7 @@ public class MenuEpisodio{
         System.out.print("\nOpção: ");
         try {
             opcao = Integer.valueOf(console.nextLine());
-        } catch (NumberFormatException e) {
+        } catch(NumberFormatException e) {
             opcao = -1;
         }
 
@@ -64,7 +60,7 @@ public class MenuEpisodio{
                 incluirEpisodio();
                 break;
             case 2:
-                buscarEpisodioPorTermo();
+                buscarEpisodio();
                 break;
             case 3:
                 alterarEpisodio();
@@ -80,8 +76,7 @@ public class MenuEpisodio{
         }
 
     } while (opcao != 0);
-}
-
+  }
   
     public void incluirEpisodio() {
       System.out.println("Inclusão de episódio");
@@ -378,71 +373,8 @@ public class MenuEpisodio{
         }
     }
     
-    public void buscarEpisodioPorTermo() {
-        System.out.println("Busca de episódio por termos");
-        System.out.print("Digite os termos de busca: ");
-        String consulta = console.nextLine();
     
-        if (consulta.isEmpty()) return;
     
-        try {
-            // Processa os termos da busca
-            var termos = Entidades.aed3.ListaInvertida.TextoUtil.processarTexto(consulta);
-            if (termos.isEmpty()) {
-                System.out.println("Nenhum termo válido na busca.");
-                return;
-            }
     
-            int N = arquivoEpisodio.listaInvertida.numeroEntidades();
-            Map<Integer, Float> scores = new HashMap<>();
-    
-            for (String termo : termos) {
-                var lista = arquivoEpisodio.listaInvertida.read(termo);
-                if (lista.length == 0) continue;
-    
-                float idf = (float) (Math.log((double) N / lista.length) + 1);
-    
-                for (var elemento : lista) {
-                    // Verifica se o episódio pertence à série atual
-                    Episodio ep = arquivoEpisodio.readId(elemento.getId());
-                    if (ep != null && ep.getSerieId() == serieId) {
-                        float score = elemento.getFrequencia() * idf;
-                        scores.put(elemento.getId(), scores.getOrDefault(elemento.getId(), 0f) + score);
-                    }
-                }
-            }
-    
-            if (scores.isEmpty()) {
-                System.out.println("Nenhum episódio encontrado com esses termos.");
-                return;
-            }
-    
-            // Ordena os resultados
-            List<Map.Entry<Integer, Float>> resultados = new ArrayList<>(scores.entrySet());
-            resultados.sort((a, b) -> Float.compare(b.getValue(), a.getValue()));
-    
-            int n = 1;
-            for (var entry : resultados) {
-                Episodio ep = arquivoEpisodio.readId(entry.getKey());
-                System.out.printf("%d) %s (Temporada: %d | Score: %.3f)\n", n++, ep.getNome(), ep.getTemporada(), entry.getValue());
-            }
-    
-            System.out.print("Escolha o episódio para ver detalhes (ou 0 para sair): ");
-            int escolha;
-            try {
-                escolha = Integer.parseInt(console.nextLine());
-            } catch (NumberFormatException e) {
-                escolha = 0;
-            }
-    
-            if (escolha > 0 && escolha <= resultados.size()) {
-                Episodio ep = arquivoEpisodio.readId(resultados.get(escolha - 1).getKey());
-                mostrarEpisodio(ep);
-            }
-    
-        } catch (Exception e) {
-            System.out.println("Erro na busca: " + e.getMessage());
-            e.printStackTrace();
-        }
-    } 
+  
 }
