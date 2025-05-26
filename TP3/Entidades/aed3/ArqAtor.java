@@ -2,6 +2,8 @@ package Entidades.aed3;
 import Model.Ator;
 import Model.ParNomeId;
 import Model.ParIdId;
+import Entidades.aed3.ListaInvertida.ListaInvertidaImplementada;
+import Entidades.aed3.ListaInvertida.ElementoLista;
 
 import java.util.ArrayList;
 
@@ -11,6 +13,7 @@ public class ArqAtor extends Arquivo<Ator> {
     Arquivo<Ator> arquivo;
     ArvoreBMais<ParNomeId> indiceNome;
     ArvoreBMais<ParIdId> indiceAtor;
+    ListaInvertidaImplementada lista;
     
     public ArqAtor() throws Exception {
         super("Atores", Ator.class.getConstructor());
@@ -23,23 +26,25 @@ public class ArqAtor extends Arquivo<Ator> {
             ParIdId.class.getConstructor(), 
             5, 
             "./Dados/Atuacao/indiceAtorAtuacao.db");
+            lista = new ListaInvertidaImplementada("Dados/ListaInvertida/stopwords.txt", 4,"Dados/ListaInvertida/Atores/dicionario.listainv.db", "Dados/ListaInvertida/Atores/blocos.listainv.db");
     }
 
     @Override
     public int create(Ator s) throws Exception {
         int id = super.create(s);
         indiceNome.create(new ParNomeId(s.getNome(), id));
+        lista.inserir(s.getNome(), s.getId());
         return id;
     }
 
     public Ator[] readNome(String nome) throws Exception {
         if(nome.length()==0)
             return null;
-        ArrayList<ParNomeId> ptis = indiceNome.read(new ParNomeId(nome, -1));
+        ArrayList<ElementoLista> ptis = lista.buscar(nome);;
         if(ptis.size()>0) {
             Ator[] series = new Ator[ptis.size()];
             int i=0;
-            for(ParNomeId pti: ptis) 
+            for(ElementoLista pti: ptis) 
                 series[i++] = read(pti.getId());
             return series;
         }
@@ -58,7 +63,7 @@ public class ArqAtor extends Arquivo<Ator> {
           ArrayList<ParIdId> ptis = indiceAtor.read(new ParIdId(id, -1));
           if(ptis.size() == 0){
             if(super.delete(id))
-                return indiceNome.delete(new ParNomeId(a.getNome(), id));
+                return lista.excluir(a.getNome(), a.getId());
           } else {
             System.out.println("Erro! Exclua as atuações antes de excluir o ator!");
           }
@@ -72,8 +77,7 @@ public class ArqAtor extends Arquivo<Ator> {
         if(s!=null) {
             if(super.update(novoAtor)) {
                 if(!s.getNome().equals(novoAtor.getNome())) {
-                    indiceNome.delete(new ParNomeId(s.getNome(), s.getId()));
-                    indiceNome.create(new ParNomeId(novoAtor.getNome(), novoAtor.getId()));
+                    lista.atualizar(s.getNome(), novoAtor.getNome(), novoAtor.getId());
                 }
                 return true;
             }
