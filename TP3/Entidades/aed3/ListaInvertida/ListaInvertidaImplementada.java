@@ -284,7 +284,7 @@ public class ListaInvertidaImplementada{
   
   public class Termo{
     String termo;
-    int idf;
+    double idf;
     ElementoLista[] elementos;
 
     public Termo(String t){
@@ -297,10 +297,10 @@ public class ListaInvertidaImplementada{
     public void setTermo(String termo) {
       this.termo = termo;
     }
-    public int getIdf() {
+    public double getIdf() {
       return idf;
     }
-    public void setIdf(int idf) {
+    public void setIdf(double idf) {
       this.idf = idf;
     }
     public ElementoLista[] getElementos() {
@@ -314,7 +314,7 @@ public class ListaInvertidaImplementada{
   }
   public ArrayList<ElementoLista> buscar(String s){ // busca a palavra toda, tem que retornar o id com a maior soma
     ArrayList<ElementoLista> a = new ArrayList<ElementoLista>();
-    int id = -2;
+    int id = -1;
       try {
         //coloca os termos nas classes
         //System.out.println("a");
@@ -325,41 +325,33 @@ public class ListaInvertidaImplementada{
           //procura a frequência do termo
           t[i].setElementos(listainv.read(t[i].getTermo()));
           //calcula o idf
-          t[i].setIdf(listainv.numeroEntidades()/(t[i].getElementos()).length);
+          t[i].setIdf(Math.log10(listainv.numeroEntidades()/(t[i].getElementos()).length)+1);
           //atualiza a frequência
           for(int j=0;j<(t[i].getElementos()).length;j++){
-            t[i].elementos[j].setFrequencia(t[i].elementos[j].getFrequencia()*t[i].getIdf());
+            t[i].elementos[j].setFrequencia((float)(t[i].elementos[j].getFrequencia()*t[i].getIdf()));
           }
         }
         //System.out.println("aa");
         //somar de todos os termos
-        //ElementoLista[] ele = new ElementoLista[listainv.numeroEntidades()];
-        int[] ids = new int[1000]; // tamanho máximo arbitrário
-        System.out.println("Aqui: "+listainv.numeroEntidades());
-        float[] somas = new float[listainv.numeroEntidades()+1];
-        for(int i=0;i<listainv.numeroEntidades();i++){
-          somas[i]=0;
-        }
-        for(int i=0;i<palavras.size();i++){
-          for(int j=0;j<t[i].getElementos().length;j++){
-            somas[t[i].elementos[j].getId()] = somas[t[i].elementos[j].getId()] + t[i].elementos[j].getFrequencia();
-            //System.out.println("Id: "+t[i].elementos[j].getId() + ", Soma: " + somas[t[i].elementos[j].getId()]);
+          //para cada palavra, eu olho a lista de (id,freq)
+          //se o id já está no a, eu somo a frequência, se não eu coloco
+        for(int i=0;i<palavras.size();i++){//olha a frase
+          for(int j=0;j<t[i].elementos.length;j++){//olha a (id,freq) de cada palavra da frase
+              //se tem algo, olha
+                boolean adcionou = false;
+                for(int k=0;k<a.size();k++){//percorre a
+                  if(a.get(k).getId() == t[i].elementos[j].getId()){//se o id for igual
+                    adcionou = true;
+                    a.get(k).setFrequencia(a.get(k).getFrequencia() + t[i].elementos[j].getFrequencia());//soma as frequências
+                  }
+                }
+                if(!adcionou){
+                  a.add(t[i].elementos[j]);//se não existe em a, adiciona
+                }
+              
           }
         }
-        ArrayList<Integer> x = new ArrayList<Integer>();
-        for(int i=0;i<listainv.numeroEntidades()+1;i++){
-          if(somas[i] > 0){
-            x.add(i);
-            //System.out.println("x add: "+ i);
-          }
-        }
-        for(int i=0;i<x.size();i++){
-          //System.out.println("Soma2: "+somas[x.get(i)]);
-        }
-        for(int i=0;i<x.size();i++){
-          a.add(new ElementoLista(x.get(i),somas[x.get(i)]));
-          //System.out.println("Colocando aqui: "+a.get(i).getId());
-        }
+        
         //ordenar a
         Collections.sort(a, Comparator.comparingDouble(ElementoLista::getFrequencia).reversed());
         /*for(int i=0;i<listainv.numeroEntidades();i++){
