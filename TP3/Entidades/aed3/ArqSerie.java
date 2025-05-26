@@ -6,12 +6,15 @@ import Model.ParIdId;
 import java.util.ArrayList;
 
 import Entidades.aed3.*;
+import Entidades.aed3.ListaInvertida.ElementoLista;
+import Entidades.aed3.ListaInvertida.ListaInvertidaImplementada;
 
 public class ArqSerie extends Arquivo<Serie> {
     Arquivo<Serie> arquivo;
     ArqAtuacao arquivoAtuacao;
     ArvoreBMais<ParNomeId> indiceNome;
     ArvoreBMais<ParIdId> indiceEpisodio;
+    ListaInvertidaImplementada lista;
     
     public ArqSerie() throws Exception {
         super("Series", Serie.class.getConstructor());
@@ -25,12 +28,14 @@ public class ArqSerie extends Arquivo<Serie> {
             ParIdId.class.getConstructor(),
             5,
             "./Dados/Episodio/indiceId.db");
+            lista = new ListaInvertidaImplementada("Dados/ListaInvertida/stopwords.txt", 4,"Dados/ListaInvertida/Atores/dicionario.listainv.db", "Dados/ListaInvertida/Atores/blocos.listainv.db");
     }
 
     @Override
     public int create(Serie s) throws Exception {
         int id = super.create(s);
         indiceNome.create(new ParNomeId(s.getNome(), id));
+        lista.inserir(s.getNome(), s.getId());
         return id;
     }
     
@@ -41,11 +46,11 @@ public class ArqSerie extends Arquivo<Serie> {
     public Serie[] readNome(String nome) throws Exception {
         if(nome.length()==0)
             return null;
-        ArrayList<ParNomeId> ptis = indiceNome.read(new ParNomeId(nome, -1));
+        ArrayList<ElementoLista> ptis = lista.buscar(nome);
         if(ptis.size()>0) {
             Serie[] series = new Serie[ptis.size()];
             int i=0;
-            for(ParNomeId pti: ptis) 
+            for(ElementoLista pti: ptis) 
                 series[i++] = read(pti.getId());
             return series;
         }
@@ -61,7 +66,7 @@ public class ArqSerie extends Arquivo<Serie> {
           ArrayList<ParIdId> ptis = indiceEpisodio.read(new ParIdId(id, -1));
           if(ptis.size() == 0){
             if(super.delete(id))
-                return indiceNome.delete(new ParNomeId(s.getNome(), id)) && arquivoAtuacao.deleteSerie(id);
+                return lista.excluir(s.getNome(), s.getId());
           }else{
             System.out.println("Erro! Exclua os episódios antes de excluir a série!");
           }
@@ -75,8 +80,7 @@ public class ArqSerie extends Arquivo<Serie> {
         if(s!=null) {
             if(super.update(novaSerie)) {
                 if(!s.getNome().equals(novaSerie.getNome())) {
-                    indiceNome.delete(new ParNomeId(s.getNome(), s.getId()));
-                    indiceNome.create(new ParNomeId(novaSerie.getNome(), novaSerie.getId()));
+                    lista.atualizar(s.getNome(), novaSerie.getNome(), novaSerie.getId());
                 }
                 return true;
             }
