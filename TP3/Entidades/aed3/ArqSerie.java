@@ -28,7 +28,7 @@ public class ArqSerie extends Arquivo<Serie> {
             ParIdId.class.getConstructor(),
             5,
             "./Dados/Episodio/indiceId.db");
-            lista = new ListaInvertidaImplementada("Dados/ListaInvertida/stopwords.txt", 4,"Dados/ListaInvertida/Atores/dicionario.listainv.db", "Dados/ListaInvertida/Atores/blocos.listainv.db");
+            lista = new ListaInvertidaImplementada("Dados/ListaInvertida/stopwords.txt", 4,"Dados/ListaInvertida/Series/dicionario.listainv.db", "Dados/ListaInvertida/Series/blocos.listainv.db");
     }
 
     @Override
@@ -80,6 +80,7 @@ public class ArqSerie extends Arquivo<Serie> {
         if(s!=null) {
             if(super.update(novaSerie)) {
                 if(!s.getNome().equals(novaSerie.getNome())) {
+
                     lista.atualizar(s.getNome(), novaSerie.getNome(), novaSerie.getId());
                 }
                 return true;
