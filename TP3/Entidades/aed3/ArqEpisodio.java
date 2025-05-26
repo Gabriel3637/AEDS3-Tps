@@ -28,7 +28,7 @@ public class ArqEpisodio extends Arquivo<Episodio> {
             ParIdId.class.getConstructor(),
             5,
             "./Dados/Episodio/indiceId.db");
-            lista = new ListaInvertidaImplementada("Dados/ListaInvertida/stopwords.txt", 4,"Dados/ListaInvertida/Atores/dicionario.listainv.db", "Dados/ListaInvertida/Atores/blocos.listainv.db");
+            lista = new ListaInvertidaImplementada("Dados/ListaInvertida/stopwords.txt", 4,"Dados/ListaInvertida/Episodios/dicionario.listainv.db", "Dados/ListaInvertida/Episodios/blocos.listainv.db");
     }
 
     @Override
