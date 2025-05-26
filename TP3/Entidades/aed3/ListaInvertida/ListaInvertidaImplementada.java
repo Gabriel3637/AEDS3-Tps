@@ -359,6 +359,7 @@ public class ListaInvertidaImplementada{
         }
         id = ele[ele.length - 1].getId();*/
       } catch (Exception e) {
+        System.out.println("Erro, não foi encontrado!");
         e.printStackTrace();
       }
       //System.out.println("aaaa");
